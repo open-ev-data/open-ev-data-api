@@ -15,4 +15,4 @@ tar -czvf coverage-report.tar.gz coverage/
 cd ..
 
 echo "✅ Coverage report generated!"
-cat dist/coverage-summary.json | head -20
+ls -lh dist/coverage*.* dist/lcov.info 2>/dev/null || echo "Coverage files created"

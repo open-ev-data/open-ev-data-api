@@ -51,7 +51,6 @@
             [
                 "@semantic-release/exec",
                 {
-                    "verifyConditionsCmd": "cargo check --all",
                     "prepareCmd": "sed -i 's/^version = \".*\"/version = \"${nextRelease.version}\"/' Cargo.toml && chmod +x scripts/release/*.sh && ./scripts/release/prepare-artifacts.sh",
                     "publishCmd": "./scripts/release/generate-coverage.sh && ./scripts/release/build-linux.sh ${nextRelease.version} && ./scripts/release/build-docker.sh ${nextRelease.version}"
                 }

@@ -486,7 +486,7 @@ dependencies = [
 
 [[package]]
 name = "ev-core"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "chrono",
  "proptest",
@@ -499,7 +499,7 @@ dependencies = [
 
 [[package]]
 name = "ev-etl"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "anyhow",
  "chrono",
@@ -523,7 +523,7 @@ dependencies = [
 
 [[package]]
 name = "ev-server"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "anyhow",
  "axum",
