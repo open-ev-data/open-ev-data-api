@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/open-ev-data/open-ev-data-api/compare/v1.0.0...v1.0.1) (2025-12-26)
+
+
+### Bug Fixes
+
+* adjust release flow ([8494b9b](https://github.com/open-ev-data/open-ev-data-api/commit/8494b9b22f25f770e03c410458e470e18c4f7a03))
+
 # 1.0.0 (2025-12-26)
 
 
