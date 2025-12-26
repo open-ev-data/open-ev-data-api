@@ -1,0 +1,99 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug ev-etl",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=ev-etl",
+                    "--package=ev-etl"
+                ],
+                "filter": {
+                    "name": "ev-etl",
+                    "kind": "bin"
+                }
+            },
+            "args": [
+                "--input",
+                "${workspaceFolder}/../open-ev-data-dataset/src",
+                "--output",
+                "${workspaceFolder}/output",
+                "--formats",
+                "json,sqlite",
+                "--verbose"
+            ],
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "RUST_BACKTRACE": "1"
+            }
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug ev-server",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=ev-server",
+                    "--package=ev-server"
+                ],
+                "filter": {
+                    "name": "ev-server",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "RUST_BACKTRACE": "1",
+                "DATABASE_URL": "${workspaceFolder}/output/vehicles.db",
+                "PORT": "3000",
+                "LOG_LEVEL": "debug"
+            }
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug Unit Tests",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--lib",
+                    "--package=ev-core"
+                ],
+                "filter": {
+                    "kind": "lib"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "RUST_BACKTRACE": "1"
+            }
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug Integration Tests",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--test=*"
+                ],
+                "filter": {
+                    "kind": "test"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "RUST_BACKTRACE": "1"
+            }
+        }
+    ]
+}

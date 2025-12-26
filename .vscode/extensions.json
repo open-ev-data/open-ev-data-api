@@ -1,0 +1,20 @@
+{
+    "recommendations": [
+        "rust-lang.rust-analyzer",
+        "tamasfe.even-better-toml",
+        "serayuzgur.crates",
+        "vadimcn.vscode-lldb",
+        "usernamehw.errorlens",
+        "fill-labs.dependi",
+        "JScearcy.rust-doc-viewer",
+        "swellaby.vscode-rust-test-adapter",
+        "redhat.vscode-yaml",
+        "EditorConfig.EditorConfig",
+        "streetsidesoftware.code-spell-checker",
+        "eamodio.gitlens",
+        "ms-azuretools.vscode-docker"
+    ],
+    "unwantedRecommendations": [
+        "rust-lang.rust"
+    ]
+}

@@ -1,0 +1,124 @@
+{
+    // Editor Settings
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "rust-lang.rust-analyzer",
+    "editor.rulers": [
+        100
+    ],
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": false,
+    "editor.semanticHighlighting.enabled": true,
+    "editor.bracketPairColorization.enabled": true,
+    "editor.guides.bracketPairs": true,
+    "editor.inlayHints.enabled": "onUnlessPressed",
+    "editor.stickyScroll.enabled": true,
+    // Files Settings
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+    "files.trimFinalNewlines": true,
+    "files.watcherExclude": {
+        "**/target/**": true
+    },
+    // Search Settings
+    "search.exclude": {
+        "**/target": true,
+        "**/*.lock": true
+    },
+    // Rust Analyzer Settings
+    "rust-analyzer.cargo.features": "all",
+    "rust-analyzer.checkOnSave": true,
+    "rust-analyzer.check.command": "clippy",
+    "rust-analyzer.check.extraArgs": [
+        "--",
+        "-W",
+        "clippy::pedantic"
+    ],
+    "rust-analyzer.diagnostics.enable": true,
+    "rust-analyzer.diagnostics.experimental.enable": true,
+    "rust-analyzer.imports.granularity.group": "crate",
+    "rust-analyzer.imports.prefix": "self",
+    "rust-analyzer.imports.granularity.enforce": true,
+    "rust-analyzer.inlayHints.chainingHints.enable": true,
+    "rust-analyzer.inlayHints.parameterHints.enable": true,
+    "rust-analyzer.inlayHints.typeHints.enable": true,
+    "rust-analyzer.inlayHints.closureReturnTypeHints.enable": "with_block",
+    "rust-analyzer.inlayHints.lifetimeElisionHints.enable": "skip_trivial",
+    "rust-analyzer.inlayHints.reborrowHints.enable": "mutable",
+    "rust-analyzer.lens.enable": true,
+    "rust-analyzer.lens.implementations.enable": true,
+    "rust-analyzer.lens.references.adt.enable": true,
+    "rust-analyzer.lens.references.enumVariant.enable": true,
+    "rust-analyzer.lens.references.method.enable": true,
+    "rust-analyzer.lens.references.trait.enable": true,
+    "rust-analyzer.lens.run.enable": true,
+    "rust-analyzer.lens.debug.enable": true,
+    "rust-analyzer.hover.actions.enable": true,
+    "rust-analyzer.hover.actions.run.enable": true,
+    "rust-analyzer.hover.actions.debug.enable": true,
+    "rust-analyzer.hover.actions.gotoTypeDef.enable": true,
+    "rust-analyzer.hover.actions.implementations.enable": true,
+    "rust-analyzer.hover.actions.references.enable": true,
+    "rust-analyzer.hover.documentation.enable": true,
+    "rust-analyzer.hover.documentation.keywords.enable": true,
+    "rust-analyzer.procMacro.enable": true,
+    "rust-analyzer.semanticHighlighting.operator.specialization.enable": true,
+    "rust-analyzer.semanticHighlighting.punctuation.enable": true,
+    "rust-analyzer.semanticHighlighting.punctuation.separate.macro.bang": true,
+    "rust-analyzer.typing.autoClosingAngleBrackets.enable": true,
+    // TOML Settings
+    "evenBetterToml.formatter.alignEntries": false,
+    "evenBetterToml.formatter.allowedBlankLines": 1,
+    "evenBetterToml.formatter.arrayAutoCollapse": true,
+    "evenBetterToml.formatter.arrayTrailingComma": true,
+    "evenBetterToml.formatter.columnWidth": 100,
+    "evenBetterToml.formatter.indentTables": false,
+    "evenBetterToml.formatter.reorderKeys": true,
+    // LLDB Debugger Settings
+    "lldb.displayFormat": "auto",
+    "lldb.dereferencePointers": true,
+    "lldb.showDisassembly": "never",
+    // Terminal Settings
+    "terminal.integrated.defaultProfile.windows": "Git Bash",
+    "terminal.integrated.profiles.windows": {
+        "Git Bash": {
+            "source": "Git Bash"
+        }
+    },
+    "terminal.integrated.env.windows": {
+        "RUST_BACKTRACE": "1"
+    },
+    "terminal.integrated.env.linux": {
+        "RUST_BACKTRACE": "1"
+    },
+    "terminal.integrated.env.osx": {
+        "RUST_BACKTRACE": "1"
+    },
+    // Git Settings
+    "git.autofetch": true,
+    "git.enableSmartCommit": true,
+    // Language-specific Settings
+    "[rust]": {
+        "editor.defaultFormatter": "rust-lang.rust-analyzer",
+        "editor.formatOnSave": true,
+        "editor.tabSize": 4
+    },
+    "[toml]": {
+        "editor.defaultFormatter": "tamasfe.even-better-toml",
+        "editor.formatOnSave": true
+    },
+    "[json]": {
+        "editor.defaultFormatter": "vscode.json-language-features",
+        "editor.formatOnSave": true
+    },
+    "[jsonc]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "[markdown]": {
+        "editor.wordWrap": "on",
+        "editor.rulers": []
+    },
+    "[sql]": {
+        "editor.tabSize": 4
+    }
+}

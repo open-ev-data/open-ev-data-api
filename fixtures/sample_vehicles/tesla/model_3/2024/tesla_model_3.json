@@ -1,0 +1,82 @@
+{
+    "$schema": "../../../open-ev-data-dataset/schema.json",
+    "schema_version": "1.0.0",
+    "make": {
+        "slug": "tesla",
+        "name": "Tesla"
+    },
+    "model": {
+        "slug": "model_3",
+        "name": "Model 3"
+    },
+    "year": 2024,
+    "trim": {
+        "slug": "base",
+        "name": "Base"
+    },
+    "vehicle_type": "passenger_car",
+    "powertrain": {
+        "drivetrain": "rwd",
+        "system_power_kw": 208,
+        "system_torque_nm": 420,
+        "motors": [
+            {
+                "position": "rear",
+                "type": "pmsm",
+                "power_kw": 208,
+                "torque_nm": 420
+            }
+        ]
+    },
+    "battery": {
+        "chemistry": "lfp",
+        "pack_capacity_kwh_gross": 62.3,
+        "pack_capacity_kwh_net": 60.0,
+        "thermal_management": "liquid",
+        "heat_pump": true
+    },
+    "charge_ports": [
+        {
+            "kind": "combo",
+            "connector": "ccs2",
+            "location": {
+                "side": "left",
+                "position": "rear"
+            }
+        }
+    ],
+    "charging": {
+        "ac": {
+            "max_power_kw": 11.0,
+            "phases": 3
+        },
+        "dc": {
+            "max_power_kw": 170,
+            "architecture_voltage_class": "400v"
+        }
+    },
+    "range": {
+        "rated": [
+            {
+                "cycle": "wltp",
+                "range_km": 513
+            },
+            {
+                "cycle": "epa",
+                "range_km": 438
+            }
+        ]
+    },
+    "performance": {
+        "acceleration_0_100_kmh_s": 6.1,
+        "top_speed_kmh": 201
+    },
+    "sources": [
+        {
+            "type": "oem",
+            "title": "Tesla Model 3 Specifications",
+            "url": "https://www.tesla.com/model3",
+            "accessed_at": "2024-12-26T00:00:00Z"
+        }
+    ]
+}

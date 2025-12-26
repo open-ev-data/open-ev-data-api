@@ -1,0 +1,144 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "cargo",
+            "command": "build",
+            "problemMatcher": [
+                "$rustc"
+            ],
+            "group": "build",
+            "label": "cargo build"
+        },
+        {
+            "type": "cargo",
+            "command": "build",
+            "args": [
+                "--release"
+            ],
+            "problemMatcher": [
+                "$rustc"
+            ],
+            "group": "build",
+            "label": "cargo build --release"
+        },
+        {
+            "type": "cargo",
+            "command": "check",
+            "problemMatcher": [
+                "$rustc"
+            ],
+            "group": "build",
+            "label": "cargo check"
+        },
+        {
+            "type": "cargo",
+            "command": "clippy",
+            "args": [
+                "--all-targets",
+                "--all-features",
+                "--",
+                "-D",
+                "warnings"
+            ],
+            "problemMatcher": [
+                "$rustc"
+            ],
+            "group": "build",
+            "label": "cargo clippy"
+        },
+        {
+            "type": "cargo",
+            "command": "test",
+            "problemMatcher": [
+                "$rustc"
+            ],
+            "group": "test",
+            "label": "cargo test"
+        },
+        {
+            "type": "cargo",
+            "command": "test",
+            "args": [
+                "--package",
+                "ev-core"
+            ],
+            "problemMatcher": [
+                "$rustc"
+            ],
+            "group": "test",
+            "label": "cargo test ev-core"
+        },
+        {
+            "type": "cargo",
+            "command": "fmt",
+            "args": [
+                "--all",
+                "--check"
+            ],
+            "problemMatcher": [],
+            "group": "build",
+            "label": "cargo fmt --check"
+        },
+        {
+            "type": "cargo",
+            "command": "fmt",
+            "args": [
+                "--all"
+            ],
+            "problemMatcher": [],
+            "group": "build",
+            "label": "cargo fmt"
+        },
+        {
+            "type": "cargo",
+            "command": "doc",
+            "args": [
+                "--no-deps",
+                "--open"
+            ],
+            "problemMatcher": [],
+            "group": "build",
+            "label": "cargo doc --open"
+        },
+        {
+            "type": "shell",
+            "command": "cargo run -p ev-etl -- --input ../open-ev-data-dataset/src --output ./output --formats json,sqlite",
+            "problemMatcher": [
+                "$rustc"
+            ],
+            "group": "build",
+            "label": "Run ETL Pipeline"
+        },
+        {
+            "type": "shell",
+            "command": "cargo run -p ev-server",
+            "problemMatcher": [
+                "$rustc"
+            ],
+            "group": "build",
+            "label": "Run API Server",
+            "options": {
+                "env": {
+                    "DATABASE_URL": "${workspaceFolder}/output/vehicles.db",
+                    "PORT": "3000",
+                    "LOG_LEVEL": "info"
+                }
+            }
+        },
+        {
+            "label": "Full CI Check",
+            "dependsOn": [
+                "cargo fmt --check",
+                "cargo clippy",
+                "cargo test"
+            ],
+            "dependsOrder": "sequence",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        }
+    ]
+}

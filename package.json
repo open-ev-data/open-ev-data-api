@@ -1,0 +1,94 @@
+{
+    "name": "open-ev-data-api",
+    "version": "0.0.0-development",
+    "description": "OpenEV Data API - A high-performance REST API for electric vehicle specifications",
+    "main": "index.js",
+    "scripts": {
+        "build": "cargo build --release",
+        "check": "cargo check --all",
+        "test": "cargo test --all",
+        "semantic-release": "semantic-release",
+        "commitlint": "commitlint --edit",
+        "prepare": "husky install || true"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/open-ev-data/open-ev-data-api.git"
+    },
+    "keywords": [
+        "electric-vehicles",
+        "ev",
+        "api",
+        "rest",
+        "rust",
+        "axum"
+    ],
+    "author": "",
+    "license": "AGPL-3.0",
+    "devDependencies": {
+        "@commitlint/cli": "^20.2.0",
+        "@commitlint/config-conventional": "^20.2.0",
+        "@semantic-release/changelog": "^6.0.3",
+        "@semantic-release/commit-analyzer": "^13.0.1",
+        "@semantic-release/exec": "^7.1.0",
+        "@semantic-release/git": "^10.0.1",
+        "@semantic-release/github": "^12.0.2",
+        "@semantic-release/release-notes-generator": "^14.1.0",
+        "husky": "^9.1.7",
+        "semantic-release": "^25.0.2"
+    },
+    "engines": {
+        "node": ">=22.14.0"
+    },
+    "release": {
+        "branches": [
+            "main"
+        ],
+        "plugins": [
+            "@semantic-release/commit-analyzer",
+            "@semantic-release/release-notes-generator",
+            "@semantic-release/changelog",
+            [
+                "@semantic-release/exec",
+                {
+                    "verifyConditionsCmd": "cargo check --all",
+                    "prepareCmd": "sed -i 's/^version = \".*\"/version = \"${nextRelease.version}\"/' Cargo.toml && chmod +x scripts/release/*.sh && ./scripts/release/prepare-artifacts.sh",
+                    "publishCmd": "./scripts/release/generate-coverage.sh && ./scripts/release/build-linux.sh ${nextRelease.version} && ./scripts/release/build-docker.sh ${nextRelease.version}"
+                }
+            ],
+            [
+                "@semantic-release/git",
+                {
+                    "assets": [
+                        "CHANGELOG.md",
+                        "Cargo.toml"
+                    ],
+                    "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+                }
+            ],
+            [
+                "@semantic-release/github",
+                {
+                    "assets": [
+                        {
+                            "path": "dist/ev-server-x86_64-unknown-linux-gnu.tar.gz",
+                            "label": "ev-server (Linux x86_64)"
+                        },
+                        {
+                            "path": "dist/ev-etl-x86_64-unknown-linux-gnu.tar.gz",
+                            "label": "ev-etl (Linux x86_64)"
+                        },
+                        {
+                            "path": "dist/coverage-report.tar.gz",
+                            "label": "Coverage Report (HTML)"
+                        },
+                        {
+                            "path": "dist/coverage-summary.json",
+                            "label": "Coverage Summary (JSON)"
+                        }
+                    ]
+                }
+            ]
+        ]
+    }
+}

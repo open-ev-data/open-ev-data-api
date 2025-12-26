@@ -1,0 +1,73 @@
+{
+    "$schema": "../../../open-ev-data-dataset/schema.json",
+    "schema_version": "1.0.0",
+    "make": {
+        "slug": "byd",
+        "name": "BYD"
+    },
+    "model": {
+        "slug": "dolphin",
+        "name": "Dolphin"
+    },
+    "year": 2024,
+    "trim": {
+        "slug": "base",
+        "name": "Base"
+    },
+    "vehicle_type": "passenger_car",
+    "powertrain": {
+        "drivetrain": "fwd",
+        "system_power_kw": 70,
+        "system_torque_nm": 180,
+        "motors": [
+            {
+                "position": "front",
+                "type": "pmsm",
+                "power_kw": 70,
+                "torque_nm": 180
+            }
+        ]
+    },
+    "battery": {
+        "chemistry": "lfp",
+        "pack_capacity_kwh_gross": 46.3,
+        "pack_capacity_kwh_net": 44.9,
+        "thermal_management": "liquid"
+    },
+    "charge_ports": [
+        {
+            "kind": "combo",
+            "connector": "ccs2",
+            "location": {
+                "side": "right",
+                "position": "rear"
+            }
+        }
+    ],
+    "charging": {
+        "ac": {
+            "max_power_kw": 7.0,
+            "phases": 1
+        },
+        "dc": {
+            "max_power_kw": 60,
+            "architecture_voltage_class": "400v"
+        }
+    },
+    "range": {
+        "rated": [
+            {
+                "cycle": "wltp",
+                "range_km": 340
+            }
+        ]
+    },
+    "sources": [
+        {
+            "type": "oem",
+            "title": "BYD Dolphin Specifications",
+            "url": "https://www.byd.com/eu/car/dolphin",
+            "accessed_at": "2024-12-26T00:00:00Z"
+        }
+    ]
+}

@@ -1,0 +1,36 @@
+# Build stage
+FROM rust:1.75-slim-bookworm AS builder
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y \
+    pkg-config \
+    libsqlite3-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY Cargo.toml Cargo.lock ./
+COPY crates ./crates
+
+RUN cargo build --release -p ev-etl
+
+# Runtime stage
+FROM debian:bookworm-slim
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y \
+    libsqlite3-0 \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --from=builder /app/target/release/ev-etl /app/ev-etl
+
+RUN useradd -r -s /bin/false appuser && \
+    chown -R appuser:appuser /app
+USER appuser
+
+ENV INPUT_DIR=/data/input
+ENV OUTPUT_DIR=/data/output
+
+ENTRYPOINT ["/app/ev-etl"]
+CMD ["--input", "/data/input", "--output", "/data/output", "--formats", "json,sqlite"]

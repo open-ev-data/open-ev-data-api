@@ -1,0 +1,54 @@
+version: "3.8"
+
+services:
+  api:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: open-ev-data/ev-server:local
+    container_name: ev-server
+    environment:
+      - DATABASE_URL=/app/vehicles.db
+      - PORT=3000
+      - HOST=0.0.0.0
+      - LOG_LEVEL=info
+      - CORS_ORIGINS=*
+      - ENABLE_COMPRESSION=true
+      - ENABLE_OPENAPI=true
+    ports:
+      - "3000:3000"
+    volumes:
+      - ../output/vehicles.db:/app/vehicles.db:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/v1/health"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
+
+  # Optional: Build ETL artifacts locally
+  etl:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.etl
+    image: open-ev-data/ev-etl:local
+    container_name: ev-etl
+    volumes:
+      - ../open-ev-data-dataset/src:/data/input:ro
+      - ../output:/data/output
+    command:
+      [
+        "--input",
+        "/data/input",
+        "--output",
+        "/data/output",
+        "--formats",
+        "json,sqlite,csv",
+      ]
+    profiles:
+      - etl
+
+networks:
+  default:
+    name: openev-network
