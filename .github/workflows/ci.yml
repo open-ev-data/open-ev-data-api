@@ -35,17 +35,7 @@ jobs:
             - name: Cache cargo
               uses: Swatinem/rust-cache@v2
             - name: Run clippy
-              run: |
-                  cargo clippy --all-targets --all-features -- \
-                    -D warnings \
-                    -A clippy::doc_markdown \
-                    -A clippy::missing_const_for_fn \
-                    -A clippy::derive_partial_eq_without_eq \
-                    -A clippy::missing_errors_doc \
-                    -A clippy::missing_panics_doc \
-                    -A clippy::expect_used \
-                    -A clippy::option_if_let_else \
-                    -A clippy::use_self
+              run: cargo clippy --all-targets --all-features -- -D warnings -A clippy::doc_markdown -A clippy::missing_const_for_fn -A clippy::derive_partial_eq_without_eq -A clippy::missing_errors_doc -A clippy::missing_panics_doc -A clippy::expect_used -A clippy::option_if_let_else -A clippy::use_self
 
     test:
         name: Tests
