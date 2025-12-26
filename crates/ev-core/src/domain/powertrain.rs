@@ -28,12 +28,9 @@ impl Powertrain {
     #[must_use]
     pub fn total_power_kw(&self) -> Option<f64> {
         self.system_power_kw.or_else(|| {
-            self.motors.as_ref().map(|motors| {
-                motors
-                    .iter()
-                    .filter_map(|m| m.power_kw)
-                    .sum()
-            })
+            self.motors
+                .as_ref()
+                .map(|motors| motors.iter().filter_map(|m| m.power_kw).sum())
         })
     }
 }

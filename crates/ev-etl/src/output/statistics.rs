@@ -37,7 +37,9 @@ pub fn generate(vehicles: &[Vehicle], processing_time: Duration) -> Statistics {
         let vehicle_type = format!("{:?}", vehicle.vehicle_type);
         *vehicles_by_type.entry(vehicle_type).or_insert(0) += 1;
 
-        *vehicles_by_make.entry(vehicle.make.name.clone()).or_insert(0) += 1;
+        *vehicles_by_make
+            .entry(vehicle.make.name.clone())
+            .or_insert(0) += 1;
 
         min_year = min_year.min(vehicle.year);
         max_year = max_year.max(vehicle.year);

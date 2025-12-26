@@ -63,7 +63,10 @@ pub fn validate_url(url: &str) -> Result<(), ValidationError> {
     Ok(())
 }
 
-pub fn collect_errors<T, I>(items: I, validator: fn(&T) -> Result<(), ValidationError>) -> Result<(), ValidationError>
+pub fn collect_errors<T, I>(
+    items: I,
+    validator: fn(&T) -> Result<(), ValidationError>,
+) -> Result<(), ValidationError>
 where
     I: IntoIterator<Item = T>,
 {

@@ -114,9 +114,15 @@ fn insert_vehicles(conn: &Connection, vehicles: &[Vehicle]) -> Result<()> {
 
     for vehicle in vehicles {
         let json_data = serde_json::to_string(vehicle)?;
-        let unique_code = vehicle.unique_code.clone().unwrap_or_else(|| vehicle.id().canonical_id());
+        let unique_code = vehicle
+            .unique_code
+            .clone()
+            .unwrap_or_else(|| vehicle.id().canonical_id());
 
-        let acceleration = vehicle.performance.as_ref().and_then(|p| p.acceleration_0_100_kmh_s);
+        let acceleration = vehicle
+            .performance
+            .as_ref()
+            .and_then(|p| p.acceleration_0_100_kmh_s);
         let top_speed = vehicle.performance.as_ref().and_then(|p| p.top_speed_kmh);
 
         stmt.execute(params![
@@ -149,8 +155,16 @@ fn insert_vehicles(conn: &Connection, vehicles: &[Vehicle]) -> Result<()> {
         let vehicle_id = conn.last_insert_rowid();
 
         for port in &vehicle.charge_ports {
-            let location_side = port.location.as_ref().and_then(|l| l.side.as_ref()).map(|s| format!("{:?}", s));
-            let location_pos = port.location.as_ref().and_then(|l| l.position.as_ref()).map(|p| format!("{:?}", p));
+            let location_side = port
+                .location
+                .as_ref()
+                .and_then(|l| l.side.as_ref())
+                .map(|s| format!("{:?}", s));
+            let location_pos = port
+                .location
+                .as_ref()
+                .and_then(|l| l.position.as_ref())
+                .map(|p| format!("{:?}", p));
 
             port_stmt.execute(params![
                 vehicle_id,

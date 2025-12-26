@@ -35,8 +35,8 @@ pub fn generate(vehicles: &[Vehicle], output_path: &Path) -> Result<()> {
         },
     };
 
-    let json = serde_json::to_string_pretty(&output)
-        .context("Failed to serialize vehicles to JSON")?;
+    let json =
+        serde_json::to_string_pretty(&output).context("Failed to serialize vehicles to JSON")?;
 
     std::fs::write(output_path, &json)
         .with_context(|| format!("Failed to write JSON to {:?}", output_path))?;
@@ -46,8 +46,15 @@ pub fn generate(vehicles: &[Vehicle], output_path: &Path) -> Result<()> {
     let hash = hex::encode(hasher.finalize());
 
     let checksum_path = output_path.with_extension("json.sha256");
-    std::fs::write(&checksum_path, format!("{}  {}\n", hash, output_path.file_name().unwrap().to_string_lossy()))
-        .with_context(|| format!("Failed to write checksum to {:?}", checksum_path))?;
+    std::fs::write(
+        &checksum_path,
+        format!(
+            "{}  {}\n",
+            hash,
+            output_path.file_name().unwrap().to_string_lossy()
+        ),
+    )
+    .with_context(|| format!("Failed to write checksum to {:?}", checksum_path))?;
 
     Ok(())
 }

@@ -35,8 +35,7 @@ async fn main() -> Result<()> {
 
     info!("OpenEV Data API Server v{}", env!("CARGO_PKG_VERSION"));
 
-    let database = Database::new(&config.database_url)
-        .context("Failed to connect to database")?;
+    let database = Database::new(&config.database_url).context("Failed to connect to database")?;
     let db = Arc::new(database);
 
     info!("Connected to database: {}", config.database_url);

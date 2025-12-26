@@ -107,7 +107,10 @@ impl Vehicle {
 
     #[must_use]
     pub fn display_name(&self) -> String {
-        format!("{} {} {} {}", self.year, self.make.name, self.model.name, self.trim.name)
+        format!(
+            "{} {} {} {}",
+            self.year, self.make.name, self.model.name, self.trim.name
+        )
     }
 
     #[must_use]

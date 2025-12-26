@@ -193,9 +193,14 @@ mod tests {
         let id = VehicleId::new("tesla", "model_3", 2024, "base", None).unwrap();
         assert_eq!(id.canonical_id(), "oed:tesla:model_3:2024:base");
 
-        let id_with_variant =
-            VehicleId::new("tesla", "model_3", 2024, "base", Some("long_range".to_string()))
-                .unwrap();
+        let id_with_variant = VehicleId::new(
+            "tesla",
+            "model_3",
+            2024,
+            "base",
+            Some("long_range".to_string()),
+        )
+        .unwrap();
         assert_eq!(
             id_with_variant.canonical_id(),
             "oed:tesla:model_3:2024:base:long_range"

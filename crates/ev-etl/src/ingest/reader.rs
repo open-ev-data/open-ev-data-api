@@ -33,7 +33,10 @@ pub fn scan_directory(input_dir: &Path) -> Result<Vec<VehicleFile>> {
     {
         let path = entry.path();
 
-        if path.file_name().is_some_and(|n| n.to_string_lossy().starts_with('.')) {
+        if path
+            .file_name()
+            .is_some_and(|n| n.to_string_lossy().starts_with('.'))
+        {
             continue;
         }
 
@@ -43,7 +46,8 @@ pub fn scan_directory(input_dir: &Path) -> Result<Vec<VehicleFile>> {
     }
 
     files.sort_by(|a, b| {
-        a.make_slug.cmp(&b.make_slug)
+        a.make_slug
+            .cmp(&b.make_slug)
             .then(a.model_slug.cmp(&b.model_slug))
             .then(a.year.cmp(&b.year))
             .then(a.file_type.cmp(&b.file_type))
@@ -75,7 +79,8 @@ impl PartialOrd for FileType {
 }
 
 fn parse_vehicle_file(path: &Path, base_dir: &Path) -> Result<Option<VehicleFile>> {
-    let relative = path.strip_prefix(base_dir)
+    let relative = path
+        .strip_prefix(base_dir)
         .context("Failed to get relative path")?;
 
     let components: Vec<_> = relative
@@ -90,9 +95,7 @@ fn parse_vehicle_file(path: &Path, base_dir: &Path) -> Result<Option<VehicleFile
     let make_slug = components[0].to_string();
     let model_slug = components[1].to_string();
 
-    let file_name = path.file_stem()
-        .and_then(|s| s.to_str())
-        .unwrap_or("");
+    let file_name = path.file_stem().and_then(|s| s.to_str()).unwrap_or("");
 
     let (year, file_type) = if file_name == "base" && components.len() == 3 {
         (None, FileType::ModelBase)
@@ -105,7 +108,9 @@ fn parse_vehicle_file(path: &Path, base_dir: &Path) -> Result<Option<VehicleFile
         }
 
         let expected_base_name = format!("{}_{}", make_slug, model_slug);
-        if file_name == expected_base_name || file_name.starts_with(&format!("{}_", expected_base_name)) {
+        if file_name == expected_base_name
+            || file_name.starts_with(&format!("{}_", expected_base_name))
+        {
             if file_name == expected_base_name {
                 (Some(year), FileType::YearBase)
             } else {
@@ -120,8 +125,8 @@ fn parse_vehicle_file(path: &Path, base_dir: &Path) -> Result<Option<VehicleFile
         return Ok(None);
     };
 
-    let content_str = std::fs::read_to_string(path)
-        .with_context(|| format!("Failed to read: {:?}", path))?;
+    let content_str =
+        std::fs::read_to_string(path).with_context(|| format!("Failed to read: {:?}", path))?;
 
     let content: Value = serde_json::from_str(&content_str)
         .with_context(|| format!("Failed to parse: {:?}", path))?;
