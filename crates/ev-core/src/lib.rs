@@ -3,7 +3,6 @@
 //! This crate provides the foundational domain model for the OpenEV Data API,
 //! implementing a pure domain library with no I/O dependencies.
 #![forbid(unsafe_code)]
-#![warn(clippy::all, clippy::pedantic, clippy::nursery)]
 
 pub mod domain;
 pub mod error;

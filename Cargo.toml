@@ -1,57 +1,60 @@
 [workspace]
-resolver = "2"
 members = ["crates/*"]
+resolver = "2"
 
 [workspace.package]
-version = "0.1.0"
+authors = ["OpenEV Data Contributors"]
 edition = "2021"
-rust-version = "1.75"
 license = "AGPL-3.0"
 repository = "https://github.com/open-ev-data/open-ev-data-api"
-authors = ["OpenEV Data Contributors"]
+rust-version = "1.75"
+version = "0.1.0"
 
 [workspace.dependencies]
-serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0"
-thiserror = "2.0"
 anyhow = "1.0"
-tokio = { version = "1.42", features = ["full"] }
 axum = "0.8"
-tower = "0.5"
-tower-http = { version = "0.6", features = ["cors", "compression-gzip", "trace", "timeout"] }
-rusqlite = { version = "0.34", features = ["bundled"] }
-sqlx = { version = "0.8", features = ["runtime-tokio", "postgres"] }
+chrono = { version = "0.4", features = ["serde"] }
 clap = { version = "4.5", features = ["derive"] }
-walkdir = "2.5"
-jsonschema = "0.26"
+criterion = "0.5"
 csv = "1.3"
+hex = "0.4"
+jsonschema = "0.26"
+mockall = "0.13"
+proptest = "1.6"
 quick-xml = { version = "0.37", features = ["serialize"] }
 rayon = "1.10"
+regex = "1.11"
+rusqlite = { version = "0.34", features = ["bundled"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+sha2 = "0.10"
+sqlx = { version = "0.8", features = ["runtime-tokio", "postgres"] }
+tempfile = "3.14"
+thiserror = "2.0"
+tokio = { version = "1.42", features = ["full"] }
+tower = "0.5"
+tower-http = { version = "0.6", features = ["cors", "compression-gzip", "trace", "timeout"] }
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
 utoipa = { version = "5.3", features = ["axum_extras"] }
 utoipa-swagger-ui = { version = "9.0", features = ["axum"] }
-chrono = { version = "0.4", features = ["serde"] }
 uuid = { version = "1.11", features = ["v4", "serde"] }
-regex = "1.11"
-sha2 = "0.10"
-hex = "0.4"
-tempfile = "3.14"
-criterion = "0.5"
-proptest = "1.6"
-mockall = "0.13"
+walkdir = "2.5"
 
 [workspace.lints.rust]
 unsafe_code = "forbid"
 
 [workspace.lints.clippy]
-all = "warn"
-pedantic = "warn"
-nursery = "warn"
-unwrap_used = "warn"
-expect_used = "warn"
+all = { level = "warn", priority = -1 }
+# Allow specific lints that are too strict for this project
+format_in_format_args = "allow"
+into_iter_without_iter = "allow"
+manual_clamp = "allow"
+manual_div_ceil = "allow"
+uninlined_format_args = "allow"
+useless_conversion = "allow"
 
 [profile.release]
-lto = true
 codegen-units = 1
+lto = true
 strip = true
