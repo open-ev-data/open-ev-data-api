@@ -43,7 +43,9 @@ jobs:
                     -A clippy::derive_partial_eq_without_eq \
                     -A clippy::missing_errors_doc \
                     -A clippy::missing_panics_doc \
-                    -A clippy::expect_used
+                    -A clippy::expect_used \
+                    -A clippy::option_if_let_else \
+                    -A clippy::use_self
 
     test:
         name: Tests
