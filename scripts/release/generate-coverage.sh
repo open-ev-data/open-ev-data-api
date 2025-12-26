@@ -14,9 +14,6 @@ cargo llvm-cov --all-features --workspace --json --output-path dist/coverage-sum
 cargo llvm-cov --all-features --workspace --lcov --output-path dist/lcov.info
 
 echo "::endgroup::"
-echo "📦 Creating coverage archive..."
-cargo llvm-cov --all-features --workspace --json --output-path dist/coverage-summary.json
-cargo llvm-cov --all-features --workspace --lcov --output-path dist/lcov.info
 
 echo "📦 Creating coverage archive..."
 cd dist

@@ -1,0 +1,49 @@
+{
+    "branches": [
+        "main"
+    ],
+    "plugins": [
+        "@semantic-release/commit-analyzer",
+        "@semantic-release/release-notes-generator",
+        "@semantic-release/changelog",
+        [
+            "@semantic-release/exec",
+            {
+                "prepareCmd": "sed -i 's/^version = \".*\"/version = \"${nextRelease.version}\"/' Cargo.toml && chmod +x scripts/release/*.sh && ./scripts/release/prepare-artifacts.sh && ./scripts/release/generate-coverage.sh && ./scripts/release/build-linux.sh ${nextRelease.version} && ./scripts/release/build-docker.sh ${nextRelease.version}"
+            }
+        ],
+        [
+            "@semantic-release/git",
+            {
+                "assets": [
+                    "CHANGELOG.md",
+                    "Cargo.toml"
+                ],
+                "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+            }
+        ],
+        [
+            "@semantic-release/github",
+            {
+                "assets": [
+                    {
+                        "path": "dist/ev-server-x86_64-unknown-linux-gnu.tar.gz",
+                        "label": "ev-server (Linux x86_64)"
+                    },
+                    {
+                        "path": "dist/ev-etl-x86_64-unknown-linux-gnu.tar.gz",
+                        "label": "ev-etl (Linux x86_64)"
+                    },
+                    {
+                        "path": "dist/coverage-report.tar.gz",
+                        "label": "Coverage Report (HTML)"
+                    },
+                    {
+                        "path": "dist/coverage-summary.json",
+                        "label": "Coverage Summary (JSON)"
+                    }
+                ]
+            }
+        ]
+    ]
+}
