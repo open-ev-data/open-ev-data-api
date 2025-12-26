@@ -1,5 +1,5 @@
 # Build stage
-FROM rust:1.75-slim-bookworm AS builder
+FROM rust:1-slim-bookworm AS builder
 
 WORKDIR /app
 
@@ -25,6 +25,7 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y \
     libsqlite3-0 \
     ca-certificates \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy binary from builder
