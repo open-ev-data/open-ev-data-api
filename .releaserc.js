@@ -57,7 +57,7 @@ module.exports = {
     [
       '@semantic-release/exec',
       {
-        prepareCmd: 'sed -i \'s/^version = ".*"/version = "${nextRelease.version}"/\' Cargo.toml && chmod +x scripts/release/*.sh && ./scripts/release/prepare-artifacts.sh && ./scripts/release/generate-coverage.sh && ./scripts/release/build-linux.sh ${nextRelease.version} && ./scripts/release/build-docker.sh ${nextRelease.version}'
+        prepareCmd: 'sed -i \'s/^version = ".*"/version = "${nextRelease.version}"/\' Cargo.toml && cargo generate-lockfile && chmod +x scripts/release/*.sh && ./scripts/release/prepare-artifacts.sh && ./scripts/release/generate-coverage.sh && ./scripts/release/build-linux.sh ${nextRelease.version} && ./scripts/release/build-docker.sh ${nextRelease.version}'
       }
     ],
     [
@@ -65,7 +65,8 @@ module.exports = {
       {
         assets: [
           'CHANGELOG.md',
-          'Cargo.toml'
+          'Cargo.toml',
+          'Cargo.lock'
         ],
         message: 'chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}'
       }
