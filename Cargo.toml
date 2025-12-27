@@ -2,12 +2,37 @@
 members = ["crates/*"]
 resolver = "2"
 
+[package]
+edition = "2024"
+name = "open-ev-data-api"
+publish = false
+version = "1.0.4"
+
+[dependencies]
+anyhow = { workspace = true }
+ev-core = { path = "crates/ev-core" }
+ev-etl = { path = "crates/ev-etl" }
+ev-server = { path = "crates/ev-server" }
+mockall = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+tempfile = { workspace = true }
+tokio = { workspace = true }
+
+[dev-dependencies]
+axum = { workspace = true }
+clap = { workspace = true }
+http-body-util = "0.1"
+rusqlite = { workspace = true }
+tower = { workspace = true }
+walkdir = { workspace = true }
+
 [workspace.package]
 authors = ["OpenEV Data Contributors"]
-edition = "2021"
+edition = "2024"
 license = "AGPL-3.0"
 repository = "https://github.com/open-ev-data/open-ev-data-api"
-rust-version = "1.75"
+rust-version = "1.92.0"
 version = "1.0.4"
 
 [workspace.dependencies]
@@ -46,7 +71,6 @@ unsafe_code = "forbid"
 
 [workspace.lints.clippy]
 all = { level = "warn", priority = -1 }
-# Allow specific lints that are too strict for this project
 format_in_format_args = "allow"
 into_iter_without_iter = "allow"
 manual_clamp = "allow"
