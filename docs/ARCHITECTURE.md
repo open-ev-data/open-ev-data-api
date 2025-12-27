@@ -2,7 +2,7 @@
 
 ## 1. Introduction & Architectural Style
 
-The **OpenEV Data API** is engineered using **Hexagonal Architecture (Ports and Adapters)**, implemented via a **Rust Cargo Workspace**. This architectural choice strictly enforces the **Dependency Rule**, ensuring that the business logic (Core) remains independent of frameworks, databases, and external interfaces.
+The **OpenEV Data API** is engineered using **Hexagonal Architecture (Ports and Adapters)**, implemented via a **Rust Cargo Workspace**. This architectural choice strictly enforces the **Dependency Rule**, ensuring that the business logic (Core) remains independent of frameworks, databases and external interfaces.
 
 ### 1.1. System Objective
 
