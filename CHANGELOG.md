@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) and [Conventional Commits](https://www.conventionalcommits.org/).
 
+## [1.0.4](https://github.com/open-ev-data/open-ev-data-api/compare/v1.0.3...v1.0.4) (2025-12-27)
+
+### 🐛 Bug Fixes
+
+* remove release extra job ([2f3756c](https://github.com/open-ev-data/open-ev-data-api/commit/2f3756c80675fc8b5079270fc1924cb9ded28196))
+
 ## [1.0.3](https://github.com/open-ev-data/open-ev-data-api/compare/v1.0.2...v1.0.3) (2025-12-27)
 
 ### 🐛 Bug Fixes
