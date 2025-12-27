@@ -26,9 +26,21 @@ docker tag "$REGISTRY/$OWNER/ev-etl:$VERSION" "$REGISTRY/$OWNER/ev-etl:latest"
 echo "📤 Pushing Docker images..."
 echo "::group::Docker Push"
 
-docker push "$REGISTRY/$OWNER/ev-server:$VERSION"
+echo "Pushing ev-server:$VERSION..."
+docker push "$REGISTRY/$OWNER/ev-server:$VERSION" 2>&1 || {
+    echo "❌ Failed to push ev-server:$VERSION"
+    echo "Registry: $REGISTRY"
+    echo "Owner: $OWNER"
+    exit 1
+}
+
+echo "Pushing ev-server:latest..."
 docker push "$REGISTRY/$OWNER/ev-server:latest"
+
+echo "Pushing ev-etl:$VERSION..."
 docker push "$REGISTRY/$OWNER/ev-etl:$VERSION"
+
+echo "Pushing ev-etl:latest..."
 docker push "$REGISTRY/$OWNER/ev-etl:latest"
 
 echo "::endgroup::"
