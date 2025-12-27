@@ -9,7 +9,7 @@
 [![License: AGPL-3.0](https://img.shields.io/badge/License-AGPL--3.0-blue.svg)](LICENCE)
 [![Version](https://img.shields.io/github/v/release/open-ev-data/open-ev-data-api?label=version)](https://github.com/open-ev-data/open-ev-data-api/releases)
 [![Rust](https://img.shields.io/badge/rust-1.92.0+-orange.svg)](https://www.rust-lang.org)
-[![Coverage](https://img.shields.io/badge/coverage-00.00%25-brightgreen)](https://github.com/open-ev-data/open-ev-data-api/releases/latest/download/coverage-report.tar.gz)
+[![Coverage](https://img.shields.io/badge/coverage-94.74%25-brightgreen)](https://github.com/open-ev-data/open-ev-data-api/releases/latest/download/coverage-report.tar.gz)
 
 ## Overview
 

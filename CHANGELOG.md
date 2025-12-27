@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) and [Conventional Commits](https://www.conventionalcommits.org/).
 
+## [1.2.0](https://github.com/open-ev-data/open-ev-data-api/compare/v1.1.0...v1.2.0) (2025-12-27)
+
+### ✨ Features
+
+* **coverage:** implement automatic coverage README update ([da725a8](https://github.com/open-ev-data/open-ev-data-api/commit/da725a83b9368630c3fa611989dbf603540d060e))
+
 ## [1.1.0](https://github.com/open-ev-data/open-ev-data-api/compare/v1.0.4...v1.1.0) (2025-12-27)
 
 ### ✨ Features
