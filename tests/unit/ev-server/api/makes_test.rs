@@ -157,3 +157,44 @@ async fn test_list_models_for_make() {
     assert!(years.contains(&serde_json::json!(2024)));
     assert!(years.contains(&serde_json::json!(2023)));
 }
+
+#[tokio::test]
+async fn test_list_models_not_found() {
+    let file = NamedTempFile::new().unwrap();
+    let path = file.path().to_str().unwrap();
+
+    {
+        let conn = Connection::open(path).unwrap();
+        conn.execute(
+            "CREATE TABLE vehicles (
+                id INTEGER PRIMARY KEY,
+                make_slug TEXT NOT NULL,
+                make_name TEXT NOT NULL,
+                model_slug TEXT NOT NULL,
+                model_name TEXT NOT NULL,
+                year INTEGER NOT NULL
+            )",
+            [],
+        )
+        .unwrap();
+
+        // Only insert Tesla, not BMW
+        conn.execute("INSERT INTO vehicles (make_slug, make_name, model_slug, model_name, year) VALUES ('tesla', 'Tesla', 'model_3', 'Model 3', 2024)", []).unwrap();
+    }
+
+    let db = Arc::new(Database::new(path).unwrap());
+    let app = ev_server::api::makes::routes().with_state(db);
+
+    // Request BMW which doesn't exist
+    let response = app
+        .oneshot(
+            Request::builder()
+                .uri("/makes/bmw/models")
+                .body(Body::empty())
+                .unwrap(),
+        )
+        .await
+        .unwrap();
+
+    assert_eq!(response.status(), StatusCode::NOT_FOUND);
+}

@@ -218,8 +218,6 @@ cargo llvm-cov --workspace --html
 cargo llvm-cov --workspace --lcov --output-path lcov.info
 ```
 
-Target: **80%** overall coverage, **100%** for public API functions.
-
 ---
 
 ## Adding New Tests

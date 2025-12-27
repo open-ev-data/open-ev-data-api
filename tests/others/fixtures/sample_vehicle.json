@@ -1,0 +1,126 @@
+{
+    "schema_version": "1.0.0",
+    "make": {
+        "slug": "tesla",
+        "name": "Tesla"
+    },
+    "model": {
+        "slug": "model_3",
+        "name": "Model 3"
+    },
+    "year": 2024,
+    "trim": {
+        "slug": "long_range",
+        "name": "Long Range"
+    },
+    "vehicle_type": "passenger_car",
+    "variant": {
+        "slug": "awd",
+        "name": "AWD",
+        "kind": "drivetrain"
+    },
+    "powertrain": {
+        "drivetrain": "awd",
+        "system_power_kw": 324.0,
+        "system_torque_nm": 493.0,
+        "motors": [
+            {
+                "position": "front",
+                "power_kw": 149.0
+            },
+            {
+                "position": "rear",
+                "power_kw": 175.0
+            }
+        ]
+    },
+    "battery": {
+        "pack_capacity_kwh_net": 75.0,
+        "pack_capacity_kwh_gross": 82.0,
+        "chemistry": "NMC",
+        "manufacturer": "Panasonic",
+        "thermal_management": "liquid",
+        "heat_pump": true
+    },
+    "charge_ports": [
+        {
+            "kind": "combo",
+            "connector": "ccs2",
+            "location": {
+                "side": "left",
+                "position": "rear"
+            }
+        }
+    ],
+    "charging": {
+        "dc": {
+            "max_power_kw": 250.0,
+            "max_current_a": 625.0,
+            "architecture_voltage_class": "400v"
+        },
+        "ac": {
+            "max_power_kw": 11.0,
+            "phases": 3
+        }
+    },
+    "range": {
+        "rated": [
+            {
+                "cycle": "wltp",
+                "range_km": 629.0
+            },
+            {
+                "cycle": "epa",
+                "range_km": 500.0
+            }
+        ],
+        "real_world": [
+            {
+                "profile": "highway",
+                "range_km": 480.0
+            },
+            {
+                "profile": "city",
+                "range_km": 550.0
+            }
+        ]
+    },
+    "body": {
+        "style": "Sedan",
+        "doors": 4,
+        "seats": 5,
+        "drag_coefficient_cd": 0.23
+    },
+    "dimensions": {
+        "length_mm": 4694.0,
+        "width_mm": 1849.0,
+        "height_mm": 1443.0,
+        "wheelbase_mm": 2875.0
+    },
+    "weights": {
+        "curb_weight_kg": 1847.0,
+        "gross_vehicle_weight_kg": 2232.0
+    },
+    "performance": {
+        "acceleration_0_100_kmh_s": 4.4,
+        "top_speed_kmh": 233.0
+    },
+    "efficiency": {
+        "energy_consumption_wh_per_km": 147.0
+    },
+    "sources": [
+        {
+            "type": "oem",
+            "title": "Tesla Model 3 Specifications",
+            "url": "https://www.tesla.com/model3",
+            "accessed_at": "2024-12-01"
+        },
+        {
+            "type": "regulatory",
+            "title": "EPA Fuel Economy",
+            "url": "https://www.fueleconomy.gov",
+            "accessed_at": "2024-12-01",
+            "publisher": "EPA"
+        }
+    ]
+}

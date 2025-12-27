@@ -76,7 +76,7 @@ fn ev_etl_test_ingest(input_dir: &std::path::Path) -> anyhow::Result<Vec<serde_j
         .into_iter()
         .filter_map(|e| e.ok())
         .filter(|e| e.file_type().is_file())
-        .filter(|e| e.path().extension().map_or(false, |ext| ext == "json"))
+        .filter(|e| e.path().extension().is_some_and(|ext| ext == "json"))
     {
         let content = std::fs::read_to_string(entry.path())?;
         let value: serde_json::Value = serde_json::from_str(&content)?;

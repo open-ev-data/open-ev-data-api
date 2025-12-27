@@ -97,4 +97,77 @@ mod tests {
         let result = deep_merge(&base, &overlay);
         assert_eq!(result, json!({"ports": ["nacs"]}));
     }
+
+    #[test]
+    fn test_merge_arrays_replace() {
+        let base = vec![json!("a"), json!("b")];
+        let overlay = vec![json!("c")];
+        let result = merge_arrays_replace(&base, &overlay);
+        assert_eq!(result, vec![json!("c")]);
+    }
+
+    #[test]
+    fn test_merge_arrays_replace_empty_overlay() {
+        let base = vec![json!("a"), json!("b")];
+        let overlay: Vec<Value> = vec![];
+        let result = merge_arrays_replace(&base, &overlay);
+        assert!(result.is_empty());
+    }
+
+    #[test]
+    fn test_remove_null_values_simple() {
+        let mut value = json!({"a": 1, "b": null, "c": 3});
+        remove_null_values(&mut value);
+        assert_eq!(value, json!({"a": 1, "c": 3}));
+    }
+
+    #[test]
+    fn test_remove_null_values_nested() {
+        let mut value = json!({
+            "a": 1,
+            "nested": {
+                "b": null,
+                "c": 2
+            }
+        });
+        remove_null_values(&mut value);
+        assert_eq!(value, json!({"a": 1, "nested": {"c": 2}}));
+    }
+
+    #[test]
+    fn test_remove_null_values_array() {
+        let mut value = json!([{"a": null}, {"b": 1}]);
+        remove_null_values(&mut value);
+        assert_eq!(value, json!([{}, {"b": 1}]));
+    }
+
+    #[test]
+    fn test_remove_null_values_no_nulls() {
+        let mut value = json!({"a": 1, "b": 2});
+        remove_null_values(&mut value);
+        assert_eq!(value, json!({"a": 1, "b": 2}));
+    }
+
+    #[test]
+    fn test_remove_null_values_scalar() {
+        let mut value = json!(42);
+        remove_null_values(&mut value);
+        assert_eq!(value, json!(42));
+    }
+
+    #[test]
+    fn test_deep_merge_scalar_override() {
+        let base = json!({"value": 1});
+        let overlay = json!({"value": "string"});
+        let result = deep_merge(&base, &overlay);
+        assert_eq!(result["value"], "string");
+    }
+
+    #[test]
+    fn test_deep_merge_non_object_base() {
+        let base = json!("scalar");
+        let overlay = json!({"a": 1});
+        let result = deep_merge(&base, &overlay);
+        assert_eq!(result, json!({"a": 1}));
+    }
 }

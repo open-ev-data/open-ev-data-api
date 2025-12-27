@@ -2,7 +2,7 @@ use std::sync::Mutex;
 
 use anyhow::{Context, Result};
 use ev_core::Vehicle;
-use rusqlite::{params, Connection};
+use rusqlite::{Connection, params};
 
 use super::{ListParams, MakeSummary, ModelSummary, VehicleSummary};
 
@@ -111,8 +111,7 @@ impl SqliteDatabase {
         let order_clause = build_order_clause(&params.sort_by, &params.sort_order);
         let query_sql = format!(
             "SELECT id, unique_code, make_slug, make_name, model_slug, model_name, year, trim_name, variant_name, vehicle_type, battery_capacity_net_kwh, range_wltp_km, range_epa_km, dc_max_power_kw FROM vehicles {} {} LIMIT ? OFFSET ?",
-            where_clause,
-            order_clause
+            where_clause, order_clause
         );
 
         let mut query_params = sql_params;

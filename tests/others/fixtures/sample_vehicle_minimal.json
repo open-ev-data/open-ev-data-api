@@ -1,0 +1,59 @@
+{
+    "schema_version": "1.0.0",
+    "make": {
+        "slug": "byd",
+        "name": "BYD"
+    },
+    "model": {
+        "slug": "dolphin",
+        "name": "Dolphin"
+    },
+    "year": 2024,
+    "trim": {
+        "slug": "comfort",
+        "name": "Comfort"
+    },
+    "vehicle_type": "passenger_car",
+    "powertrain": {
+        "drivetrain": "fwd",
+        "system_power_kw": 70.0,
+        "system_torque_nm": 180.0
+    },
+    "battery": {
+        "pack_capacity_kwh_net": 44.9,
+        "pack_capacity_kwh_gross": 46.0,
+        "chemistry": "LFP",
+        "thermal_management": "liquid"
+    },
+    "charge_ports": [
+        {
+            "kind": "combo",
+            "connector": "ccs2"
+        }
+    ],
+    "charging": {
+        "dc": {
+            "max_power_kw": 88.0
+        },
+        "ac": {
+            "max_power_kw": 7.0,
+            "phases": 1
+        }
+    },
+    "range": {
+        "rated": [
+            {
+                "cycle": "wltp",
+                "range_km": 340.0
+            }
+        ]
+    },
+    "sources": [
+        {
+            "type": "oem",
+            "title": "BYD Dolphin Specifications",
+            "url": "https://www.byd.com/dolphin",
+            "accessed_at": "2024-12-01"
+        }
+    ]
+}

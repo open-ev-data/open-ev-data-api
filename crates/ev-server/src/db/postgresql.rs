@@ -27,7 +27,9 @@ impl PostgresDatabase {
         if !connection_string.starts_with("postgresql://")
             && !connection_string.starts_with("postgres://")
         {
-            anyhow::bail!("Invalid PostgreSQL connection string: must start with postgresql:// or postgres://");
+            anyhow::bail!(
+                "Invalid PostgreSQL connection string: must start with postgresql:// or postgres://"
+            );
         }
 
         Ok(Self {

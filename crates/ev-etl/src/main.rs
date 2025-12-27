@@ -1,7 +1,7 @@
 use anyhow::{Context, Result};
 use clap::Parser;
 use ev_etl::{cli::Cli, run_pipeline, run_validation};
-use tracing::{info, Level};
+use tracing::{Level, info};
 use tracing_subscriber::FmtSubscriber;
 
 fn main() -> Result<()> {

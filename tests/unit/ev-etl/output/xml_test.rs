@@ -454,8 +454,40 @@ fn test_xml_namespace() {
     xml::generate(&vehicles, path).expect("Failed to generate XML");
 
     let content = std::fs::read_to_string(path).expect("Failed to read generated file");
+    assert!(content.contains("xmlns=\"https://openevdata.org/schema/1.0\""));
+}
 
-    assert!(content.contains(r#"xmlns="https://openevdata.org/schema/1.0""#));
+#[test]
+fn test_xml_charging_data() {
+    let mut vehicle = create_test_vehicle();
+    vehicle.charging.dc = Some(ev_core::ChargingDc {
+        max_power_kw: 250.0,
+        voltage_range_v: None,
+        max_current_a: None,
+        architecture_voltage_class: None,
+        power_limits_by_voltage: None,
+        notes: None,
+    });
+    vehicle.charging.ac = Some(ev_core::ChargingAc {
+        max_power_kw: 11.0,
+        supported_power_steps_kw: None,
+        phases: None,
+        voltage_range_v: None,
+        frequency_hz: None,
+        max_current_a: None,
+        onboard_charger_count: None,
+        notes: None,
+    });
+
+    let vehicles = vec![vehicle];
+    let file = NamedTempFile::new().expect("Failed to create temp file");
+    let path = file.path();
+
+    xml::generate(&vehicles, path).expect("Failed to generate XML");
+
+    let content = std::fs::read_to_string(path).expect("Failed to read generated file");
+    assert!(content.contains("<dcMaxPowerKw>250</dcMaxPowerKw>"));
+    assert!(content.contains("<acMaxPowerKw>11</acMaxPowerKw>"));
 }
 
 #[test]

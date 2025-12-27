@@ -157,7 +157,7 @@ fn test_range_cycle_display_other() {
 #[test]
 fn test_vehicle_type_serialization() {
     let vehicle_type = VehicleType::PassengerCar;
-    let json = serde_json::to_value(&vehicle_type).unwrap();
+    let json = serde_json::to_value(vehicle_type).unwrap();
     assert_eq!(json, serde_json::json!("passenger_car"));
 }
 
@@ -171,7 +171,7 @@ fn test_vehicle_type_deserialization() {
 #[test]
 fn test_drivetrain_serialization() {
     let drivetrain = Drivetrain::FourWd;
-    let json = serde_json::to_value(&drivetrain).unwrap();
+    let json = serde_json::to_value(drivetrain).unwrap();
     assert_eq!(json, serde_json::json!("4wd"));
 }
 
@@ -185,15 +185,15 @@ fn test_drivetrain_deserialization() {
 #[test]
 fn test_motor_position_serialization() {
     let pos = MotorPosition::Front;
-    let json = serde_json::to_value(&pos).unwrap();
+    let json = serde_json::to_value(pos).unwrap();
     assert_eq!(json, serde_json::json!("front"));
 
     let pos = MotorPosition::Rear;
-    let json = serde_json::to_value(&pos).unwrap();
+    let json = serde_json::to_value(pos).unwrap();
     assert_eq!(json, serde_json::json!("rear"));
 
     let pos = MotorPosition::Other;
-    let json = serde_json::to_value(&pos).unwrap();
+    let json = serde_json::to_value(pos).unwrap();
     assert_eq!(json, serde_json::json!("other"));
 }
 
@@ -431,17 +431,6 @@ fn test_enum_equality() {
     assert_ne!(VehicleType::Suv, VehicleType::Pickup);
     assert_eq!(Drivetrain::Awd, Drivetrain::Awd);
     assert_ne!(Drivetrain::Fwd, Drivetrain::Rwd);
-}
-
-#[test]
-fn test_enum_clone() {
-    let original = VehicleType::PassengerCar;
-    let cloned = original.clone();
-    assert_eq!(original, cloned);
-
-    let original = ConnectorType::Ccs2;
-    let cloned = original.clone();
-    assert_eq!(original, cloned);
 }
 
 #[test]

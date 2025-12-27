@@ -379,3 +379,27 @@ fn test_csv_with_charging_data() {
     assert!(content.contains("250"));
     assert!(content.contains("11"));
 }
+
+#[test]
+fn test_csv_with_performance_data() {
+    use ev_core::Performance;
+
+    let mut vehicle = create_test_vehicle();
+    vehicle.performance = Some(Performance {
+        acceleration_0_100_kmh_s: Some(5.8),
+        acceleration_0_60_mph_s: Some(5.2),
+        top_speed_kmh: Some(225.0),
+        quarter_mile_s: Some(14.5),
+    });
+
+    let vehicles = vec![vehicle];
+    let file = NamedTempFile::new().expect("Failed to create temp file");
+    let path = file.path();
+
+    csv::generate(&vehicles, path).expect("Failed to generate CSV");
+
+    let content = std::fs::read_to_string(path).expect("Failed to read generated file");
+
+    assert!(content.contains("5.8"));
+    assert!(content.contains("225"));
+}

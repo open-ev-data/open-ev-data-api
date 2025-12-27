@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 
 use crate::error::ValidationError;
-use crate::validation::{validate_slug, validate_year, Validate};
+use crate::validation::{Validate, validate_slug, validate_year};
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub struct SlugName {

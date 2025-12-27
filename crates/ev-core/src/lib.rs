@@ -11,9 +11,9 @@ pub mod validation;
 pub use domain::{
     Battery, Body, Capacity, ChargeCurve, ChargeCurvePoint, ChargePort, Charging, ChargingAc,
     ChargingDc, ChargingProtocols, ChargingTime, Conditions, Dimensions, Efficiency, Images, Links,
-    Metadata, Motor, Msrp, Powertrain, Preconditioning, Pricing, Range, RangeRated, RangeRealWorld,
-    SlugName, Source, Transmission, UsableSocWindow, V2LOutlet, Variant, Vehicle,
-    VehicleAvailability, VehicleId, Warranty, Weights, WheelsTires, Year, V2G, V2H, V2L, V2X,
+    Metadata, Motor, Msrp, Performance, Powertrain, Preconditioning, Pricing, Range, RangeRated,
+    RangeRealWorld, SlugName, Source, Transmission, UsableSocWindow, V2G, V2H, V2L, V2LOutlet, V2X,
+    Variant, Vehicle, VehicleAvailability, VehicleId, Warranty, Weights, WheelsTires, Year,
 };
 
 pub use domain::enums::{

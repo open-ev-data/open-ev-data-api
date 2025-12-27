@@ -10,7 +10,7 @@ mod types;
 mod vehicle;
 
 pub use battery::{Battery, Preconditioning, UsableSocWindow, Warranty};
-pub use body::{Body, Capacity, Dimensions, Weights};
+pub use body::{Body, Capacity, Dimensions, Performance, Weights};
 pub use charging::{
     ChargeCurve, ChargeCurvePoint, ChargePort, Charging, ChargingAc, ChargingDc, ChargingProtocols,
     ChargingTime, Conditions,
@@ -22,5 +22,5 @@ pub use sources::Source;
 pub use types::{SlugName, VehicleId, Year};
 pub use vehicle::{Vehicle, VehicleAvailability};
 
-pub use charging::{V2LOutlet, V2G, V2H, V2L, V2X};
+pub use charging::{V2G, V2H, V2L, V2LOutlet, V2X};
 pub use metadata::{Msrp, Pricing, Software, WheelsTires};

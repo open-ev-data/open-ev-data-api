@@ -437,3 +437,26 @@ fn test_validation_report_debug() {
     let debug_str = format!("{:?}", report);
     assert!(debug_str.contains("ValidationReport"));
 }
+
+#[test]
+fn test_save_to_file_failure() {
+    let report = ValidationReport::new();
+    let temp_dir = NamedTempFile::new().expect("Failed to create temp file");
+    let path = temp_dir.path().parent().unwrap();
+
+    let result = report.save_to_file(path);
+    assert!(result.is_err());
+}
+
+#[test]
+fn test_validate_with_json_schema_invalid_schema() {
+    let invalid_schema = serde_json::json!({
+        "type": "invalid_type",
+        "properties": {}
+    });
+
+    let valid_json = serde_json::json!({});
+
+    let result = validate_with_json_schema(&valid_json, &invalid_schema);
+    assert!(result.is_err());
+}

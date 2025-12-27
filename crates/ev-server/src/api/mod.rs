@@ -5,8 +5,8 @@ pub mod vehicles;
 
 use std::sync::Arc;
 
-use axum::http::header;
 use axum::Router;
+use axum::http::header;
 use tower_http::compression::CompressionLayer;
 use tower_http::cors::{Any, CorsLayer};
 use tower_http::timeout::TimeoutLayer;

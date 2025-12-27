@@ -131,4 +131,53 @@ mod tests {
         assert!(validate_currency_code("usd").is_err());
         assert!(validate_currency_code("US").is_err());
     }
+
+    #[test]
+    fn test_validate_url_valid() {
+        assert!(validate_url("https://example.com").is_ok());
+        assert!(validate_url("http://example.com").is_ok());
+        assert!(validate_url("https://example.com/path").is_ok());
+    }
+
+    #[test]
+    fn test_validate_url_invalid() {
+        assert!(validate_url("").is_err());
+        assert!(validate_url("example.com").is_err());
+        assert!(validate_url("ftp://example.com").is_err());
+        assert!(validate_url("www.example.com").is_err());
+    }
+
+    #[test]
+    fn test_collect_errors_empty() {
+        let items: Vec<String> = vec![];
+        let result = collect_errors(items, |_: &String| Ok(()));
+        assert!(result.is_ok());
+    }
+
+    #[test]
+    fn test_collect_errors_all_valid() {
+        let items = vec!["tesla", "byd", "rivian"];
+        let result = collect_errors(items, |s: &&str| validate_slug(s));
+        assert!(result.is_ok());
+    }
+
+    #[test]
+    fn test_collect_errors_single_error() {
+        let items = vec!["tesla", "INVALID", "rivian"];
+        let result = collect_errors(items, |s: &&str| validate_slug(s));
+        assert!(result.is_err());
+        if let Err(e) = result {
+            assert!(matches!(e, ValidationError::InvalidSlug { .. }));
+        }
+    }
+
+    #[test]
+    fn test_collect_errors_multiple_errors() {
+        let items = vec!["INVALID1", "INVALID2", "INVALID3"];
+        let result = collect_errors(items, |s: &&str| validate_slug(s));
+        assert!(result.is_err());
+        if let Err(e) = result {
+            assert!(matches!(e, ValidationError::Multiple(_)));
+        }
+    }
 }

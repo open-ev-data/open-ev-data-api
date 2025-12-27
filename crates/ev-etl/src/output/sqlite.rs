@@ -2,7 +2,7 @@ use std::path::Path;
 
 use anyhow::{Context, Result};
 use ev_core::Vehicle;
-use rusqlite::{params, Connection};
+use rusqlite::{Connection, params};
 
 pub fn generate(vehicles: &[Vehicle], output_path: &Path) -> Result<()> {
     if output_path.exists() {

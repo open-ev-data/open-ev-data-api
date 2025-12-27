@@ -115,3 +115,94 @@ async fn test_search_vehicles_match() {
     assert_eq!(results.len(), 1);
     assert_eq!(results[0]["model_name"], "Model 3");
 }
+
+#[tokio::test]
+async fn test_search_vehicles_empty_query() {
+    let file = NamedTempFile::new().unwrap();
+    let path = file.path().to_str().unwrap();
+
+    {
+        let conn = Connection::open(path).unwrap();
+        conn.execute(
+            "CREATE TABLE vehicles (
+                id INTEGER PRIMARY KEY,
+                unique_code TEXT NOT NULL,
+                make_slug TEXT NOT NULL,
+                make_name TEXT NOT NULL,
+                model_slug TEXT NOT NULL,
+                model_name TEXT NOT NULL,
+                year INTEGER NOT NULL,
+                trim_name TEXT NOT NULL,
+                variant_name TEXT,
+                vehicle_type TEXT NOT NULL,
+                battery_capacity_net_kwh REAL,
+                range_wltp_km REAL,
+                range_epa_km REAL,
+                dc_max_power_kw REAL
+            )",
+            [],
+        )
+        .unwrap();
+    }
+
+    let db = Arc::new(Database::new(path).unwrap());
+    let app = ev_server::api::search::routes().with_state(db);
+
+    let response = app
+        .oneshot(
+            Request::builder()
+                .uri("/search?q=")
+                .body(Body::empty())
+                .unwrap(),
+        )
+        .await
+        .unwrap();
+
+    assert_eq!(response.status(), axum::http::StatusCode::BAD_REQUEST);
+}
+
+#[tokio::test]
+async fn test_search_vehicles_short_query() {
+    let file = NamedTempFile::new().unwrap();
+    let path = file.path().to_str().unwrap();
+
+    {
+        let conn = Connection::open(path).unwrap();
+        conn.execute(
+            "CREATE TABLE vehicles (
+                id INTEGER PRIMARY KEY,
+                unique_code TEXT NOT NULL,
+                make_slug TEXT NOT NULL,
+                make_name TEXT NOT NULL,
+                model_slug TEXT NOT NULL,
+                model_name TEXT NOT NULL,
+                year INTEGER NOT NULL,
+                trim_name TEXT NOT NULL,
+                variant_name TEXT,
+                vehicle_type TEXT NOT NULL,
+                battery_capacity_net_kwh REAL,
+                range_wltp_km REAL,
+                range_epa_km REAL,
+                dc_max_power_kw REAL
+            )",
+            [],
+        )
+        .unwrap();
+    }
+
+    let db = Arc::new(Database::new(path).unwrap());
+    let app = ev_server::api::search::routes().with_state(db);
+
+    // Single character query should fail
+    let response = app
+        .oneshot(
+            Request::builder()
+                .uri("/search?q=a")
+                .body(Body::empty())
+                .unwrap(),
+        )
+        .await
+        .unwrap();
+
+    assert_eq!(response.status(), axum::http::StatusCode::BAD_REQUEST);
+}

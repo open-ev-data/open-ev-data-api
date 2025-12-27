@@ -64,11 +64,45 @@ jobs:
               uses: Swatinem/rust-cache@v2
             - name: Generate coverage
               run: cargo llvm-cov --all-features --workspace --lcov --output-path lcov.info
+            - name: Generate coverage JSON
+              run: cargo llvm-cov --all-features --workspace --json --output-path coverage.json
+            - name: Extract coverage percentage
+              id: coverage
+              run: |
+                  COVERAGE=$(cargo llvm-cov --all-features --workspace 2>&1 | grep "TOTAL" | awk '{print $NF}' | tr -d '%')
+                  echo "percentage=${COVERAGE}" >> $GITHUB_OUTPUT
+                  echo "Coverage: ${COVERAGE}%"
+
+                  # Create badge JSON for shields.io endpoint
+                  COLOR="red"
+                  if (( $(echo "$COVERAGE >= 90" | bc -l) )); then
+                    COLOR="brightgreen"
+                  elif (( $(echo "$COVERAGE >= 80" | bc -l) )); then
+                    COLOR="green"
+                  elif (( $(echo "$COVERAGE >= 70" | bc -l) )); then
+                    COLOR="yellowgreen"
+                  elif (( $(echo "$COVERAGE >= 60" | bc -l) )); then
+                    COLOR="yellow"
+                  elif (( $(echo "$COVERAGE >= 50" | bc -l) )); then
+                    COLOR="orange"
+                  fi
+
+                  echo "{\"schemaVersion\":1,\"label\":\"coverage\",\"message\":\"${COVERAGE}%\",\"color\":\"${COLOR}\"}" > coverage-badge.json
             - name: Upload coverage to Codecov
               uses: codecov/codecov-action@v4
               with:
                   files: lcov.info
                   fail_ci_if_error: false
+            - name: Upload coverage badge artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: coverage-badge
+                  path: coverage-badge.json
+            - name: Upload coverage report
+              uses: actions/upload-artifact@v4
+              with:
+                  name: coverage-report
+                  path: coverage.json
 
     build:
         name: Build

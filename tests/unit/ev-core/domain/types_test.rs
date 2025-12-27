@@ -39,5 +39,5 @@ fn test_year_validation() {
     assert!(Year::new(1900).is_ok());
     assert!(Year::new(2024).is_ok());
     assert!(Year::new(2100).is_ok()); // Assuming future years allowed
-                                      // Check upper bound if exist
+    // Check upper bound if exist
 }

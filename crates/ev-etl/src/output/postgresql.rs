@@ -109,7 +109,8 @@ fn write_data(file: &mut std::fs::File, vehicles: &[Vehicle]) -> Result<()> {
             .and_then(|p| p.acceleration_0_100_kmh_s);
         let top_speed = vehicle.performance.as_ref().and_then(|p| p.top_speed_kmh);
 
-        writeln!(file,
+        writeln!(
+            file,
             "INSERT INTO vehicles (unique_code, make_slug, make_name, model_slug, model_name, year, trim_slug, trim_name, variant_slug, variant_name, vehicle_type, drivetrain, system_power_kw, system_torque_nm, battery_capacity_gross_kwh, battery_capacity_net_kwh, battery_chemistry, dc_max_power_kw, ac_max_power_kw, range_wltp_km, range_epa_km, acceleration_0_100_s, top_speed_kmh, json_data) VALUES ('{}', '{}', '{}', '{}', '{}', {}, '{}', '{}', {}, {}, '{}', '{}', {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, '{}');",
             escape_sql(&unique_code),
             escape_sql(&vehicle.make.slug),
@@ -119,21 +120,72 @@ fn write_data(file: &mut std::fs::File, vehicles: &[Vehicle]) -> Result<()> {
             vehicle.year,
             escape_sql(&vehicle.trim.slug),
             escape_sql(&vehicle.trim.name),
-            vehicle.variant.as_ref().map(|v| format!("'{}'", escape_sql(&v.slug))).unwrap_or_else(|| "NULL".to_string()),
-            vehicle.variant.as_ref().map(|v| format!("'{}'", escape_sql(&v.name))).unwrap_or_else(|| "NULL".to_string()),
+            vehicle
+                .variant
+                .as_ref()
+                .map(|v| format!("'{}'", escape_sql(&v.slug)))
+                .unwrap_or_else(|| "NULL".to_string()),
+            vehicle
+                .variant
+                .as_ref()
+                .map(|v| format!("'{}'", escape_sql(&v.name)))
+                .unwrap_or_else(|| "NULL".to_string()),
             format!("{:?}", vehicle.vehicle_type),
             format!("{:?}", vehicle.powertrain.drivetrain),
-            vehicle.powertrain.system_power_kw.map(|v| v.to_string()).unwrap_or_else(|| "NULL".to_string()),
-            vehicle.powertrain.system_torque_nm.map(|v| v.to_string()).unwrap_or_else(|| "NULL".to_string()),
-            vehicle.battery.pack_capacity_kwh_gross.map(|v| v.to_string()).unwrap_or_else(|| "NULL".to_string()),
-            vehicle.battery.pack_capacity_kwh_net.map(|v| v.to_string()).unwrap_or_else(|| "NULL".to_string()),
-            vehicle.battery.chemistry.as_ref().map(|v| format!("'{}'", escape_sql(v))).unwrap_or_else(|| "NULL".to_string()),
-            vehicle.charging.dc.as_ref().map(|dc| dc.max_power_kw.to_string()).unwrap_or_else(|| "NULL".to_string()),
-            vehicle.charging.ac.as_ref().map(|ac| ac.max_power_kw.to_string()).unwrap_or_else(|| "NULL".to_string()),
-            vehicle.range.wltp_range_km().map(|v| v.to_string()).unwrap_or_else(|| "NULL".to_string()),
-            vehicle.range.epa_range_km().map(|v| v.to_string()).unwrap_or_else(|| "NULL".to_string()),
-            acceleration.map(|v| v.to_string()).unwrap_or_else(|| "NULL".to_string()),
-            top_speed.map(|v| v.to_string()).unwrap_or_else(|| "NULL".to_string()),
+            vehicle
+                .powertrain
+                .system_power_kw
+                .map(|v| v.to_string())
+                .unwrap_or_else(|| "NULL".to_string()),
+            vehicle
+                .powertrain
+                .system_torque_nm
+                .map(|v| v.to_string())
+                .unwrap_or_else(|| "NULL".to_string()),
+            vehicle
+                .battery
+                .pack_capacity_kwh_gross
+                .map(|v| v.to_string())
+                .unwrap_or_else(|| "NULL".to_string()),
+            vehicle
+                .battery
+                .pack_capacity_kwh_net
+                .map(|v| v.to_string())
+                .unwrap_or_else(|| "NULL".to_string()),
+            vehicle
+                .battery
+                .chemistry
+                .as_ref()
+                .map(|v| format!("'{}'", escape_sql(v)))
+                .unwrap_or_else(|| "NULL".to_string()),
+            vehicle
+                .charging
+                .dc
+                .as_ref()
+                .map(|dc| dc.max_power_kw.to_string())
+                .unwrap_or_else(|| "NULL".to_string()),
+            vehicle
+                .charging
+                .ac
+                .as_ref()
+                .map(|ac| ac.max_power_kw.to_string())
+                .unwrap_or_else(|| "NULL".to_string()),
+            vehicle
+                .range
+                .wltp_range_km()
+                .map(|v| v.to_string())
+                .unwrap_or_else(|| "NULL".to_string()),
+            vehicle
+                .range
+                .epa_range_km()
+                .map(|v| v.to_string())
+                .unwrap_or_else(|| "NULL".to_string()),
+            acceleration
+                .map(|v| v.to_string())
+                .unwrap_or_else(|| "NULL".to_string()),
+            top_speed
+                .map(|v| v.to_string())
+                .unwrap_or_else(|| "NULL".to_string()),
             escaped_json,
         )?;
     }
@@ -156,7 +208,10 @@ fn write_indexes(file: &mut std::fs::File) -> Result<()> {
         file,
         "CREATE INDEX IF NOT EXISTS idx_vehicles_year ON vehicles(year);"
     )?;
-    writeln!(file, "CREATE INDEX IF NOT EXISTS idx_vehicles_composite ON vehicles(make_slug, model_slug, year, trim_slug);")?;
+    writeln!(
+        file,
+        "CREATE INDEX IF NOT EXISTS idx_vehicles_composite ON vehicles(make_slug, model_slug, year, trim_slug);"
+    )?;
     writeln!(
         file,
         "CREATE INDEX IF NOT EXISTS idx_vehicles_type ON vehicles(vehicle_type);"
