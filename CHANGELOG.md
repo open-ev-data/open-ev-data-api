@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) and [Conventional Commits](https://www.conventionalcommits.org/).
 
+## [1.2.1](https://github.com/open-ev-data/open-ev-data-api/compare/v1.2.0...v1.2.1) (2025-12-27)
+
+### 🐛 Bug Fixes
+
+* correct punctuation in architectural documentation ([696cd0b](https://github.com/open-ev-data/open-ev-data-api/commit/696cd0b28e9b4df84316582e4ab94c9b45333121))
+
+### 🔧 Miscellaneous Chores
+
+* add GitHub Actions workflow for syncing documentation to website ([99d04ff](https://github.com/open-ev-data/open-ev-data-api/commit/99d04ffce4a7db00e078038b08a0dde3e9b3c7dc))
+
 ## [1.2.0](https://github.com/open-ev-data/open-ev-data-api/compare/v1.1.0...v1.2.0) (2025-12-27)
 
 ### ✨ Features
