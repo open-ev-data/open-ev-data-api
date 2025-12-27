@@ -11,7 +11,7 @@ version.workspace = true
 [dependencies]
 chrono.workspace = true
 regex.workspace = true
-schemars = "0.8"
+schemars = "1.2.0"
 serde.workspace = true
 serde_json.workspace = true
 thiserror.workspace = true

@@ -28,7 +28,7 @@ pub fn validate_with_json_schema(vehicle_json: &Value, schema: &Value) -> Result
 
     let errors: Vec<String> = compiled
         .iter_errors(vehicle_json)
-        .map(|error| format!("{} at {}", error, error.instance_path))
+        .map(|error| format!("{} at {}", error, error.instance_path()))
         .collect();
 
     Ok(errors)
