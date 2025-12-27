@@ -1,20 +1,10 @@
-# Build stage
-FROM rust:1.92.0-slim-bookworm AS builder
+# Production Dockerfile - Uses pre-compiled binaries from target/release/
+# This Dockerfile is optimized for CI/CD pipelines where binaries are built
+# separately before Docker image creation, significantly reducing build time.
+#
+# Prerequisites: cargo build --release must be run before building this image
+# Usage: docker build -t ev-etl -f docker/Dockerfile.etl .
 
-WORKDIR /app
-
-RUN apt-get update && apt-get install -y \
-    pkg-config \
-    libsqlite3-dev \
-    curl \
-    && rm -rf /var/lib/apt/lists/*
-
-COPY Cargo.toml Cargo.lock ./
-COPY crates ./crates
-
-RUN cargo build --release -p ev-etl
-
-# Runtime stage
 FROM debian:bookworm-slim
 
 WORKDIR /app
@@ -24,7 +14,7 @@ RUN apt-get update && apt-get install -y \
     ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
-COPY --from=builder /app/target/release/ev-etl /app/ev-etl
+COPY target/release/ev-etl /app/ev-etl
 
 RUN useradd -r -s /bin/false appuser && \
     chown -R appuser:appuser /app

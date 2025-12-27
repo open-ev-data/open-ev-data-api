@@ -4,7 +4,7 @@ services:
   api:
     build:
       context: ..
-      dockerfile: docker/Dockerfile
+      dockerfile: docker/Dockerfile.dev
     image: open-ev-data/ev-server:local
     container_name: ev-server
     environment:
@@ -31,7 +31,7 @@ services:
   etl:
     build:
       context: ..
-      dockerfile: docker/Dockerfile.etl
+      dockerfile: docker/Dockerfile.etl.dev
     image: open-ev-data/ev-etl:local
     container_name: ev-etl
     volumes:

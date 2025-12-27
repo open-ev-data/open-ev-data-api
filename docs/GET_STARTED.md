@@ -117,10 +117,12 @@ cargo watch -x 'run -p ev-server -- --database ./output/vehicles.db'
 
 ## Docker
 
-Build and run with Docker:
+### Development Build
+
+For local development (builds inside the container):
 
 ```bash
-docker build -t ev-server -f docker/Dockerfile .
+docker build -t ev-server -f docker/Dockerfile.dev .
 docker run -p 3000:3000 -v $(pwd)/output/vehicles.db:/app/vehicles.db:ro ev-server
 ```
 
@@ -129,6 +131,18 @@ Or use Docker Compose:
 ```bash
 docker-compose -f docker/docker-compose.yml up
 ```
+
+### Production Build
+
+For CI/CD and production deployments (uses pre-compiled binaries):
+
+```bash
+cargo build --release
+docker build -t ev-server -f docker/Dockerfile .
+docker run -p 3000:3000 -v $(pwd)/output/vehicles.db:/app/vehicles.db:ro ev-server
+```
+
+The production Dockerfile expects binaries to be pre-built in `target/release/`, which significantly reduces build time and image size.
 
 ---
 
