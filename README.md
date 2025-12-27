@@ -12,7 +12,7 @@
 
 ## Overview
 
-This repository provides a **production-ready REST API** for querying electric vehicle data from the OpenEV Data Dataset. Built with Rust for maximum performance, type safety, and reliability.
+This repository provides a **production-ready REST API** for querying electric vehicle data from the OpenEV Data Dataset. Built with Rust for maximum performance, type safety and reliability.
 
 ## Documentation
 
