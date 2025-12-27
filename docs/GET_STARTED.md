@@ -8,7 +8,7 @@ Ensure you have completed the [Governance Getting Started Guide](https://github.
 
 - All repositories cloned in the `open-ev-data/` directory
 - The multi-repository workspace open in VS Code or Cursor
-- Rust toolchain installed (1.75+)
+- Rust toolchain installed (1.92.0+)
 
 Verify Rust installation:
 

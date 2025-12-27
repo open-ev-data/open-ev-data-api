@@ -151,20 +151,20 @@ Tests that don't fit other categories:
 ### All Tests
 
 ```bash
-cargo test --all
+cargo test --workspace
 ```
 
 ### Specific Category
 
 ```bash
 # Unit tests only
-cargo test --test 'unit_*'
+cargo test --test unit
 
 # E2E tests only
-cargo test --test 'e2e_*'
+cargo test --test e2e
 
 # Integration tests only
-cargo test --test 'integration_*'
+cargo test --test integration
 ```
 
 ### Specific Crate
@@ -201,11 +201,21 @@ cargo watch -x "test --all"
 
 ## Coverage
 
-Generate coverage report:
+Generate coverage report using `cargo-llvm-cov` (Recommended):
 
 ```bash
-cargo install cargo-tarpaulin
-cargo tarpaulin --all --out Html
+# Install the tool
+cargo install cargo-llvm-cov
+
+# Generate text summary
+cargo llvm-cov --workspace
+
+# Generate HTML report (Interactive)
+cargo llvm-cov --workspace --html
+# Report will be at: target/llvm-cov/html/index.html
+
+# Generate LCOV info (for CI)
+cargo llvm-cov --workspace --lcov --output-path lcov.info
 ```
 
 Target: **80%** overall coverage, **100%** for public API functions.

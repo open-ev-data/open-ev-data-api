@@ -8,7 +8,7 @@
 
 [![License: AGPL-3.0](https://img.shields.io/badge/License-AGPL--3.0-blue.svg)](LICENCE)
 [![Version](https://img.shields.io/github/v/release/open-ev-data/open-ev-data-api?label=version)](https://github.com/open-ev-data/open-ev-data-api/releases)
-[![Rust](https://img.shields.io/badge/rust-1.75+-orange.svg)](https://www.rust-lang.org)
+[![Rust](https://img.shields.io/badge/rust-1.92.0+-orange.svg)](https://www.rust-lang.org)
 
 ## Overview
 

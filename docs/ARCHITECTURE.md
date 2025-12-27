@@ -197,7 +197,7 @@ graph TD
 
     subgraph "Build-Time (CI/CD)"
         ETL[ev-etl CLI]
-        
+
         subgraph "Output Artifacts"
             JSON[vehicles.json]
             SQLite[vehicles.db]
@@ -220,16 +220,16 @@ graph TD
     Dataset -->|Read| ETL
     Core -->|Used by| ETL
     Core -->|Used by| Server
-    
+
     ETL -->|Generate| JSON
     ETL -->|Generate| SQLite
     ETL -->|Generate| PostgreSQL
     ETL -->|Generate| CSV
     ETL -->|Generate| XML
-    
+
     SQLite -.->|Deploy| DB
     PostgreSQL -.->|Deploy| DB
-    
+
     Server -->|Query| DB
     Client -->|HTTP Request| Server
     Server -->|JSON Response| Client
@@ -262,7 +262,7 @@ sequenceDiagram
     participant Client as API Consumer
 
     note over Contributor, Artifacts: BUILD-TIME PIPELINE
-    
+
     Contributor->>DatasetRepo: Commit JSON changes
     DatasetRepo->>CI: Trigger workflow
     CI->>ETL: Run cargo build --release -p ev-etl
@@ -275,15 +275,15 @@ sequenceDiagram
     ETL->>Artifacts: Generate vehicles.csv
     ETL->>Artifacts: Generate vehicles.xml
     CI->>DatasetRepo: Attach artifacts to release
-    
+
     note over Deploy, Client: RUNTIME PATH
-    
+
     Deploy->>API: Deploy ev-server + vehicles.db
     API->>API: Load database into memory
     Client->>API: GET /api/v1/vehicles?make=tesla
     API->>API: Query local database
     API-->>Client: Return JSON response
-    
+
     Client->>API: GET /api/v1/vehicles/tesla/model_3/2024
     API->>API: Query by composite key
     API-->>Client: Return vehicle details
@@ -316,7 +316,7 @@ The project utilizes the **Rust 2024 Edition**. Below is the technology stack fo
 * **Language:** Rust
 * **Edition:** `2024` (Latest Stable Edition)
 * **Toolchain:** `stable` (Version 1.85+)
-* **MSRV:** 1.80.0 (Minimum Supported Rust Version)
+* **MSRV:** 1.92.0 (Minimum Supported Rust Version)
 
 ### 5.2. Core Libraries
 
@@ -368,7 +368,7 @@ The project utilizes the **Rust 2024 Edition**. Below is the technology stack fo
 * **Container Orchestration:** Kubernetes 1.30+ (optional)
 * **CI/CD:** GitHub Actions
 * **Release Automation:** semantic-release
-* **Database (Production):** 
+* **Database (Production):**
   - SQLite 3.45+ (embedded mode)
   - PostgreSQL 16+ (server mode)
 
@@ -458,7 +458,7 @@ Each canonical vehicle must pass:
 }
 ```
 
-**Use Cases**: 
+**Use Cases**:
 - Direct JSON consumption by applications
 - Import into other systems
 - Data analysis and exploration
@@ -722,13 +722,13 @@ jobs:
     - Checkout API repository
     - Install Rust toolchain
     - Build ev-etl in release mode
-    
+
   generate-artifacts:
     - Run ev-etl against dataset source
     - Generate all output formats
     - Validate all artifacts
     - Calculate checksums
-    
+
   publish-artifacts:
     - Upload to GitHub Release
     - Tag with semantic version
@@ -761,7 +761,7 @@ jobs:
     - cargo clippy -- -D warnings
     - cargo test --all-features
     - cargo test --doc
-    
+
   build:
     - cargo build --release -p ev-etl
     - cargo build --release -p ev-server
@@ -781,11 +781,11 @@ jobs:
     - Run semantic-release
     - Generate changelog
     - Create GitHub release
-    
+
   build-binaries:
     - Cross-compile for multiple platforms
     - Upload binaries to release
-    
+
   build-docker:
     - Build Docker image
     - Push to container registry
