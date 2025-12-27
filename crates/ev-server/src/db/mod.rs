@@ -4,6 +4,7 @@ mod sqlite;
 use anyhow::Result;
 use ev_core::Vehicle;
 
+pub use postgresql::PostgresDatabase;
 pub use sqlite::SqliteDatabase;
 
 pub struct Database {

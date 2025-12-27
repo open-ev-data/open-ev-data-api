@@ -6,14 +6,7 @@ use tokio::net::TcpListener;
 use tracing::{info, Level};
 use tracing_subscriber::FmtSubscriber;
 
-mod api;
-mod config;
-mod db;
-mod error;
-mod models;
-
-use config::Config;
-use db::Database;
+use ev_server::{api, config::Config, db::Database};
 
 #[tokio::main]
 async fn main() -> Result<()> {

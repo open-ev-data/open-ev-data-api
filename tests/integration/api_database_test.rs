@@ -10,7 +10,7 @@ fn test_health_endpoint_structure() {
     });
 
     assert_eq!(response["status"], "ok");
-    assert!(response["vehicle_count"].as_u64().unwrap() >= 0);
+    assert_eq!(response["vehicle_count"].as_u64().unwrap(), 100);
 }
 
 #[test]

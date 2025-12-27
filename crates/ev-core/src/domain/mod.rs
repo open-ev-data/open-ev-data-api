@@ -23,4 +23,4 @@ pub use types::{SlugName, VehicleId, Year};
 pub use vehicle::{Vehicle, VehicleAvailability};
 
 pub use charging::{V2LOutlet, V2G, V2H, V2L, V2X};
-pub use metadata::{Msrp, Pricing, WheelsTires};
+pub use metadata::{Msrp, Pricing, Software, WheelsTires};

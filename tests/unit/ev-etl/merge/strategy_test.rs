@@ -1,22 +1,5 @@
+use ev_etl::merge::deep_merge;
 use serde_json::json;
-
-fn deep_merge(base: &serde_json::Value, overlay: &serde_json::Value) -> serde_json::Value {
-    match (base, overlay) {
-        (serde_json::Value::Object(base_map), serde_json::Value::Object(overlay_map)) => {
-            let mut result = base_map.clone();
-            for (key, overlay_value) in overlay_map {
-                let merged_value = if let Some(base_value) = base_map.get(key) {
-                    deep_merge(base_value, overlay_value)
-                } else {
-                    overlay_value.clone()
-                };
-                result.insert(key.clone(), merged_value);
-            }
-            serde_json::Value::Object(result)
-        }
-        (_, overlay) => overlay.clone(),
-    }
-}
 
 #[test]
 fn test_merge_simple_objects() {
@@ -93,7 +76,10 @@ fn test_merge_deeply_nested() {
     let result = deep_merge(&base, &overlay);
 
     assert_eq!(result["charging"]["dc"]["max_power_kw"], 250);
-    assert_eq!(result["charging"]["dc"]["architecture_voltage_class"], "400v");
+    assert_eq!(
+        result["charging"]["dc"]["architecture_voltage_class"],
+        "400v"
+    );
     assert_eq!(result["charging"]["ac"]["max_power_kw"], 11);
 }
 

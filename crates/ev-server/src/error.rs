@@ -1,7 +1,7 @@
+use axum::Json;
 use axum::http::StatusCode;
 use axum::response::{IntoResponse, Response};
-use axum::Json;
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use utoipa::ToSchema;
 
 #[derive(Debug)]
@@ -14,7 +14,7 @@ pub enum ApiError {
     ServiceUnavailable(String),
 }
 
-#[derive(Debug, Clone, Serialize, ToSchema)]
+#[derive(Debug, Clone, Serialize, Deserialize, ToSchema)]
 #[schema(example = json!({
     "type": "https://github.com/open-ev-data/open-ev-data-api/blob/main/docs/API_ERRORS.md#errorsnot-found",
     "title": "Resource Not Found",

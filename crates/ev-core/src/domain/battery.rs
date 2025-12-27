@@ -62,6 +62,18 @@ impl Battery {
     }
 }
 
+use crate::error::ValidationError;
+use crate::validation::Validate;
+
+impl Validate for Battery {
+    fn validate(&self) -> Result<(), ValidationError> {
+        if !self.has_capacity() {
+            return Err(ValidationError::MissingBatteryCapacity);
+        }
+        Ok(())
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Preconditioning {
     pub supported: bool,

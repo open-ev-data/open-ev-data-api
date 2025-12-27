@@ -1,7 +1,7 @@
-mod health;
-mod makes;
-mod search;
-mod vehicles;
+pub mod health;
+pub mod makes;
+pub mod search;
+pub mod vehicles;
 
 use std::sync::Arc;
 

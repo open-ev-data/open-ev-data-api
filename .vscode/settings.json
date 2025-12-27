@@ -120,5 +120,14 @@
     },
     "[sql]": {
         "editor.tabSize": 4
+    },
+    // Explorer settings
+    "explorer.fileNesting.enabled": true,
+    "explorer.fileNesting.patterns": {
+        "*.json": "${capture}.schema.json, ${capture}.test.json",
+        "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml",
+        "tsconfig.json": "tsconfig.*.json",
+        "pyproject.toml": "poetry.lock, Pipfile.lock",
+        "requirements.txt": "requirements-dev.txt, requirements-test.txt"
     }
 }
