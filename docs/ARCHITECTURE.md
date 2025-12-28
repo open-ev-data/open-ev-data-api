@@ -76,7 +76,6 @@ The workspace is divided into three distinct crates, each representing a specifi
             - Docker container
             - Kubernetes deployment
             - Serverless functions (future)
-            - Edge workers (future)
 
 ### 1.4. Architectural Principles
 
@@ -865,16 +864,6 @@ DATABASE_URL=postgresql://user:pass@localhost/openev ./ev-server
 - Read replicas support
 - Full ACID compliance
 
-### 9.4. Serverless / Edge (Future)
-
-**Platforms**: AWS Lambda, Cloudflare Workers, Vercel Edge
-
-**Adaptations Required**:
-- Separate WASM build target
-- Remote database connection
-- Cold start optimization
-- Response streaming
-
 ---
 
 ## 10. Development Workflow
@@ -950,19 +939,13 @@ cargo test -p ev-server --test integration
 - Caching layer with Redis
 - Rate limiting and API keys
 
-### Phase 3 - Edge Computing
-- Cloudflare Workers deployment
-- AWS Lambda@Edge support
-- Global CDN distribution
-- Sub-10ms response times worldwide
-
-### Phase 4 - Analytics
+### Phase 3 - Analytics
 - Usage analytics and telemetry
 - Popular vehicle tracking
 - Search query analysis
 - Performance monitoring dashboard
 
-### Phase 5 - Data Quality
+### Phase 4 - Data Quality
 - Automated data quality scoring
 - Community contribution workflow
 - Diff visualization for updates
