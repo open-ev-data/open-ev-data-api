@@ -6,51 +6,51 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [1.2.2](https://github.com/open-ev-data/open-ev-data-api/compare/v1.2.1...v1.2.2) (2025-12-28)
 
-### 🐛 Bug Fixes
+### Bug Fixes
 
 * adjust vehicle creation, validation and tests on merge actions ([99a4ba7](https://github.com/open-ev-data/open-ev-data-api/commit/99a4ba7643bcae2cd5b2156978830fffe51a5180))
 
 ## [1.2.1](https://github.com/open-ev-data/open-ev-data-api/compare/v1.2.0...v1.2.1) (2025-12-27)
 
-### 🐛 Bug Fixes
+### Bug Fixes
 
 * correct punctuation in architectural documentation ([696cd0b](https://github.com/open-ev-data/open-ev-data-api/commit/696cd0b28e9b4df84316582e4ab94c9b45333121))
 
-### 🔧 Miscellaneous Chores
+### Miscellaneous Chores
 
 * add GitHub Actions workflow for syncing documentation to website ([99d04ff](https://github.com/open-ev-data/open-ev-data-api/commit/99d04ffce4a7db00e078038b08a0dde3e9b3c7dc))
 
 ## [1.2.0](https://github.com/open-ev-data/open-ev-data-api/compare/v1.1.0...v1.2.0) (2025-12-27)
 
-### ✨ Features
+### Features
 
 * **coverage:** implement automatic coverage README update ([da725a8](https://github.com/open-ev-data/open-ev-data-api/commit/da725a83b9368630c3fa611989dbf603540d060e))
 
 ## [1.1.0](https://github.com/open-ev-data/open-ev-data-api/compare/v1.0.4...v1.1.0) (2025-12-27)
 
-### ✨ Features
+### Features
 
 * **docker:** add development Dockerfiles and update configurations for local development ([c70a0b7](https://github.com/open-ev-data/open-ev-data-api/commit/c70a0b737c704556bb97d2d1ecfcf0f368c7f59c))
 * **tests:** implement initial unit tests ([6bae1ec](https://github.com/open-ev-data/open-ev-data-api/commit/6bae1ec27b2cd4c755517822ca9803d42dfa429a))
 
-### 📝 Documentation
+### Documentation
 
 * update rust version documentations and test documentation aux ([4a588dd](https://github.com/open-ev-data/open-ev-data-api/commit/4a588dd5313a80d8dd09a515610a9b6420dca220))
 
-### 🔧 Miscellaneous Chores
+### Miscellaneous Chores
 
 * update project dependencies ([e03027d](https://github.com/open-ev-data/open-ev-data-api/commit/e03027dd4add8f4508d38b406db2b241de057b55))
 * upgrade rust version ([1221d2e](https://github.com/open-ev-data/open-ev-data-api/commit/1221d2eeeff351d620c94032290591aac4c9d788))
 
 ## [1.0.4](https://github.com/open-ev-data/open-ev-data-api/compare/v1.0.3...v1.0.4) (2025-12-27)
 
-### 🐛 Bug Fixes
+### Bug Fixes
 
 * remove release extra job ([2f3756c](https://github.com/open-ev-data/open-ev-data-api/commit/2f3756c80675fc8b5079270fc1924cb9ded28196))
 
 ## [1.0.3](https://github.com/open-ev-data/open-ev-data-api/compare/v1.0.2...v1.0.3) (2025-12-27)
 
-### 🐛 Bug Fixes
+### Bug Fixes
 
 * adjust dependencies ([59ac120](https://github.com/open-ev-data/open-ev-data-api/commit/59ac12090887f0eb10e8931f6c001d4f24a939b2))
 * adjust dockerfile for etl release ([bc57012](https://github.com/open-ev-data/open-ev-data-api/commit/bc570123104855df3badfd970311312f61c5dd31))
