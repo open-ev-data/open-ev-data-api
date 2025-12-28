@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) and [Conventional Commits](https://www.conventionalcommits.org/).
 
+## [1.2.3](https://github.com/open-ev-data/open-ev-data-api/compare/v1.2.2...v1.2.3) (2025-12-28)
+
+### Bug Fixes
+
+* **changelogs:** definitely adjust the changelog standard ([b2e2350](https://github.com/open-ev-data/open-ev-data-api/commit/b2e235048a42870aa32dad300e6268b95967b04e))
+
+### Documentation
+
+* remove outdated data of referente api ([536335a](https://github.com/open-ev-data/open-ev-data-api/commit/536335ae3ec4c62ad2ba86264e0c4aea69c1589a))
+
 ## [1.2.2](https://github.com/open-ev-data/open-ev-data-api/compare/v1.2.1...v1.2.2) (2025-12-28)
 
 ### Bug Fixes
