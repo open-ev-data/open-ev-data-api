@@ -26,7 +26,7 @@ fn create_valid_test_dataset() -> TempDir {
     });
 
     std::fs::write(
-        base.join("tesla/model_3/2024/tesla_model_3.json"),
+        base.join("tesla/model_3/2024/model_3.json"),
         serde_json::to_string_pretty(&vehicle).unwrap(),
     )
     .expect("Failed to write");
@@ -244,8 +244,9 @@ fn create_invalid_test_dataset() -> TempDir {
 
     std::fs::create_dir_all(base.join("tesla/model_3/2024")).expect("Failed to create dirs");
 
-    // Invalid vehicle: missing battery capacity, charge ports, range, sources
+    // Invalid vehicle: missing battery capacity, charge ports, range, sources AND unknown field
     let vehicle = json!({
+        "unknown_field": "should_fail",
         "schema_version": "1.0.0",
         "make": {"slug": "tesla", "name": "Tesla"},
         "model": {"slug": "model_3", "name": "Model 3"},
@@ -261,7 +262,7 @@ fn create_invalid_test_dataset() -> TempDir {
     });
 
     std::fs::write(
-        base.join("tesla/model_3/2024/tesla_model_3.json"),
+        base.join("tesla/model_3/2024/model_3.json"),
         serde_json::to_string_pretty(&vehicle).unwrap(),
     )
     .expect("Failed to write");
@@ -285,7 +286,7 @@ fn test_run_validation_with_invalid_vehicle() {
 }
 
 #[test]
-fn test_run_pipeline_filters_invalid_vehicles() {
+fn test_run_pipeline_fails_on_invalid_vehicles() {
     let temp_dir = TempDir::new().expect("Failed to create temp dir");
     let base = temp_dir.path();
 
@@ -308,8 +309,9 @@ fn test_run_pipeline_filters_invalid_vehicles() {
         "sources": [{"type": "oem", "title": "Tesla", "url": "https://tesla.com", "accessed_at": "2024-01-01"}]
     });
 
-    // Invalid vehicle: missing required fields
+    // Invalid vehicle: missing required fields AND has unknown field
     let invalid_vehicle = json!({
+        "unknown_field": "should_fail",
         "schema_version": "1.0.0",
         "make": {"slug": "byd", "name": "BYD"},
         "model": {"slug": "dolphin", "name": "Dolphin"},
@@ -325,13 +327,13 @@ fn test_run_pipeline_filters_invalid_vehicles() {
     });
 
     std::fs::write(
-        base.join("tesla/model_3/2024/tesla_model_3.json"),
+        base.join("tesla/model_3/2024/model_3.json"),
         serde_json::to_string_pretty(&valid_vehicle).unwrap(),
     )
     .expect("Failed to write");
 
     std::fs::write(
-        base.join("byd/dolphin/2024/byd_dolphin.json"),
+        base.join("byd/dolphin/2024/dolphin.json"),
         serde_json::to_string_pretty(&invalid_vehicle).unwrap(),
     )
     .expect("Failed to write");
@@ -345,14 +347,7 @@ fn test_run_pipeline_filters_invalid_vehicles() {
         false,
     );
 
-    // Pipeline should succeed but skip invalid vehicle
+    // Pipeline should fail due to invalid vehicle (fail-fast)
     let result = run_pipeline(&cli);
-    assert!(result.is_ok());
-
-    // Verify output contains only valid vehicle
-    let output_json = std::fs::read_to_string(output_dir.path().join("vehicles.json")).unwrap();
-    let output: serde_json::Value = serde_json::from_str(&output_json).unwrap();
-
-    // Should have only 1 vehicle (Tesla, not BYD)
-    assert_eq!(output["vehicle_count"], 1);
+    assert!(result.is_err());
 }

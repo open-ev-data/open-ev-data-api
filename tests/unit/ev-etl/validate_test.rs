@@ -9,6 +9,7 @@ use tempfile::NamedTempFile;
 
 fn create_valid_vehicle() -> Vehicle {
     Vehicle {
+        schema_url: None,
         schema_version: "1.0.0".to_string(),
         make: SlugName {
             slug: "tesla".into(),
@@ -85,6 +86,7 @@ fn create_valid_vehicle() -> Vehicle {
 
 fn create_invalid_vehicle() -> Vehicle {
     Vehicle {
+        schema_url: None,
         schema_version: "1.0.0".to_string(),
         make: SlugName {
             slug: "tesla".into(),

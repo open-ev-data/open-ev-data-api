@@ -1,14 +1,13 @@
+use ev_core::Drivetrain;
 use ev_core::{Battery, Charging, Powertrain, Range, SlugName, Vehicle, VehicleType};
 use ev_etl::output::sqlite::generate;
 use rusqlite::Connection;
 use tempfile::NamedTempFile;
 
-#[test]
-fn test_sqlite_generation() {
-    // Setup minimal vehicle
-    use ev_core::Drivetrain;
-    let v1 = Vehicle {
-        schema_version: "1.0".into(),
+fn create_test_vehicle() -> Vehicle {
+    Vehicle {
+        schema_url: None,
+        schema_version: "1.0.0".to_string(),
         make: SlugName {
             slug: "tesla".into(),
             name: "Tesla".into(),
@@ -58,8 +57,12 @@ fn test_sqlite_generation() {
         links: None,
         images: None,
         metadata: None,
-    };
+    }
+}
 
+#[test]
+fn test_sqlite_generation() {
+    let v1 = create_test_vehicle();
     let file = NamedTempFile::new().unwrap();
     let path = file.path();
 

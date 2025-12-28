@@ -107,19 +107,19 @@ fn parse_vehicle_file(path: &Path, base_dir: &Path) -> Result<Option<VehicleFile
             return Ok(None);
         }
 
-        let expected_base_name = format!("{}_{}", make_slug, model_slug);
-        if file_name == expected_base_name
-            || file_name.starts_with(&format!("{}_", expected_base_name))
-        {
-            if file_name == expected_base_name {
-                (Some(year), FileType::YearBase)
-            } else {
-                (Some(year), FileType::Variant)
-            }
-        } else if !file_name.contains('_') {
+        // Strict naming convention check
+        if file_name == model_slug {
             (Some(year), FileType::YearBase)
-        } else {
+        } else if file_name.starts_with(&format!("{}_", model_slug)) {
             (Some(year), FileType::Variant)
+        } else {
+            return Err(anyhow::anyhow!(
+                "Invalid file name '{}.json' in year {} folder. Expected exact match '{}' or starts with '{}_'",
+                file_name,
+                year,
+                model_slug,
+                model_slug
+            ));
         }
     } else {
         return Ok(None);

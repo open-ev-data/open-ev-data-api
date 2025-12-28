@@ -7,6 +7,7 @@ use tempfile::NamedTempFile;
 
 fn create_test_vehicle() -> Vehicle {
     Vehicle {
+        schema_url: None,
         schema_version: "1.0.0".to_string(),
         make: SlugName {
             slug: "tesla".to_string(),
@@ -88,6 +89,7 @@ fn create_test_vehicle() -> Vehicle {
 
 fn create_minimal_vehicle() -> Vehicle {
     Vehicle {
+        schema_url: None,
         schema_version: "1.0.0".to_string(),
         make: SlugName {
             slug: "bmw".to_string(),

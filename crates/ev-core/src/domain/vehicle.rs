@@ -13,7 +13,10 @@ use crate::error::ValidationError;
 use crate::validation::Validate;
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
 pub struct Vehicle {
+    #[serde(rename = "$schema", skip_serializing_if = "Option::is_none")]
+    pub schema_url: Option<String>,
     pub schema_version: String,
     pub make: SlugName,
     pub model: SlugName,
@@ -198,6 +201,7 @@ mod tests {
 
     fn create_test_vehicle() -> Vehicle {
         Vehicle {
+            schema_url: None,
             schema_version: "1.0.0".to_string(),
             make: SlugName {
                 slug: "tesla".to_string(),

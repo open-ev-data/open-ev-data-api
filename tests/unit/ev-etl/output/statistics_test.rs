@@ -2,16 +2,12 @@ use ev_core::{Battery, Charging, Powertrain, Range, SlugName, Vehicle, VehicleTy
 use ev_etl::output::statistics::generate;
 use std::time::Duration;
 
-#[test]
-fn test_statistics_generation() {
-    // Setup minimal vehicle
-    // Construct minimal vehicles
-    // Actually, create_test_vehicle helper is better but I can't easily share helpers across test files unless I make a common module.
-    // I will construct minimal struct here.
-
+// Helper function to create a minimal test vehicle
+fn create_test_vehicle() -> Vehicle {
     use ev_core::Drivetrain;
-    let v1 = Vehicle {
-        schema_version: "1.0".into(),
+    Vehicle {
+        schema_url: None,
+        schema_version: "1.0.0".to_string(),
         make: SlugName {
             slug: "tesla".into(),
             name: "Tesla".into(),
@@ -62,8 +58,12 @@ fn test_statistics_generation() {
         links: None,
         images: None,
         metadata: None,
-    };
+    }
+}
 
+#[test]
+fn test_statistics_generation() {
+    let v1 = create_test_vehicle();
     let stats = generate(&[v1], Duration::from_secs(1));
 
     assert_eq!(stats.total_vehicles, 1);

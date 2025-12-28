@@ -8,6 +8,7 @@ fn test_postgresql_generation() {
     // Setup minimal vehicle
     use ev_core::Drivetrain;
     let v1 = Vehicle {
+        schema_url: None,
         schema_version: "1.0".into(),
         make: SlugName {
             slug: "tesla".into(),
@@ -80,6 +81,7 @@ fn test_postgresql_generation() {
 fn test_postgresql_with_variant() {
     use ev_core::{Drivetrain, Variant};
     let v1 = Vehicle {
+        schema_url: None,
         schema_version: "1.0".into(),
         make: SlugName {
             slug: "tesla".into(),
@@ -158,6 +160,7 @@ fn test_postgresql_with_variant() {
 fn test_postgresql_with_performance() {
     use ev_core::{ChargingAc, ChargingDc, Drivetrain, Performance, RangeCycle, RangeRated};
     let v1 = Vehicle {
+        schema_url: None,
         schema_version: "1.0".into(),
         make: SlugName {
             slug: "tesla".into(),

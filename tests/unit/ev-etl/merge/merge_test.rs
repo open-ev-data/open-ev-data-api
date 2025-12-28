@@ -28,7 +28,7 @@ fn create_test_dataset() -> TempDir {
     });
 
     std::fs::write(
-        base.join("tesla/model_3/2024/tesla_model_3.json"),
+        base.join("tesla/model_3/2024/model_3.json"),
         serde_json::to_string_pretty(&year_base).unwrap(),
     )
     .expect("Failed to write year base");
@@ -51,7 +51,7 @@ fn create_test_dataset() -> TempDir {
     });
 
     std::fs::write(
-        base.join("tesla/model_3/2024/tesla_model_3_long_range.json"),
+        base.join("tesla/model_3/2024/model_3_long_range.json"),
         serde_json::to_string_pretty(&variant).unwrap(),
     )
     .expect("Failed to write variant");
@@ -248,16 +248,15 @@ fn test_merge_all_invalid_base_vehicle() {
     });
 
     std::fs::write(
-        base.join("tesla/model_3/2024/tesla_model_3.json"),
+        base.join("tesla/model_3/2024/model_3.json"),
         serde_json::to_string_pretty(&invalid_base).unwrap(),
     )
     .expect("Failed to write");
 
     let files = ev_etl::ingest::load_dataset(base).expect("Failed to load dataset");
 
-    let vehicles = ev_etl::merge::merge_all(&files).expect("Failed to merge");
-
-    assert!(vehicles.is_empty());
+    let vehicles = ev_etl::merge::merge_all(&files);
+    assert!(vehicles.is_err());
 }
 
 #[test]
@@ -283,7 +282,7 @@ fn test_merge_all_invalid_variant_vehicle() {
     });
 
     std::fs::write(
-        base.join("tesla/model_3/2024/tesla_model_3.json"),
+        base.join("tesla/model_3/2024/model_3.json"),
         serde_json::to_string_pretty(&valid_base).unwrap(),
     )
     .expect("Failed to write base");
@@ -294,15 +293,13 @@ fn test_merge_all_invalid_variant_vehicle() {
     });
 
     std::fs::write(
-        base.join("tesla/model_3/2024/tesla_model_3_invalid.json"),
+        base.join("tesla/model_3/2024/model_3_invalid.json"),
         serde_json::to_string_pretty(&invalid_variant).unwrap(),
     )
     .expect("Failed to write variant");
 
     let files = ev_etl::ingest::load_dataset(base).expect("Failed to load dataset");
 
-    let vehicles = ev_etl::merge::merge_all(&files).expect("Failed to merge");
-
-    assert_eq!(vehicles.len(), 1);
-    assert_eq!(vehicles[0].trim.slug, "base");
+    let vehicles = ev_etl::merge::merge_all(&files);
+    assert!(vehicles.is_err());
 }

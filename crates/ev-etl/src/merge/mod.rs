@@ -2,7 +2,7 @@ mod strategy;
 
 use std::collections::HashMap;
 
-use anyhow::Result;
+use anyhow::{Result, anyhow};
 use ev_core::Vehicle;
 use serde_json::Value;
 
@@ -19,11 +19,14 @@ pub fn merge_all(files: &[VehicleFile]) -> Result<Vec<Vehicle>> {
     }
 
     let mut vehicles = Vec::new();
+    let mut errors: Vec<String> = Vec::new();
 
     for ((make_slug, model_slug), model_files) in grouped {
         let base_file = model_files
             .iter()
             .find(|f| f.file_type == FileType::ModelBase);
+
+        // Base file is optional for the model, but if missing, year files must be complete
         let base_content = base_file
             .map(|f| f.content.clone())
             .unwrap_or(Value::Object(serde_json::Map::new()));
@@ -46,37 +49,67 @@ pub fn merge_all(files: &[VehicleFile]) -> Result<Vec<Vehicle>> {
                 .collect();
 
             if let Some(year_base_file) = year_base {
-                let merged_base = deep_merge(&base_content, &year_base_file.content);
+                let merged_year_base = deep_merge(&base_content, &year_base_file.content);
 
-                match serde_json::from_value::<Vehicle>(merged_base.clone()) {
+                match serde_json::from_value::<Vehicle>(merged_year_base.clone()) {
                     Ok(vehicle) => vehicles.push(vehicle),
                     Err(e) => {
-                        tracing::warn!(
-                            "Failed to parse base vehicle {}/{}/{}: {}",
+                        let msg = format!(
+                            "{}/{}/{}/{}: {}",
                             make_slug,
                             model_slug,
                             year,
+                            year_base_file
+                                .path
+                                .file_name()
+                                .unwrap_or_default()
+                                .to_string_lossy(),
                             e
                         );
+                        errors.push(msg);
                     }
                 }
 
                 for variant_file in variants {
-                    let merged_variant = deep_merge(&merged_base, &variant_file.content);
+                    let merged_variant = deep_merge(&merged_year_base, &variant_file.content);
 
                     match serde_json::from_value::<Vehicle>(merged_variant) {
                         Ok(vehicle) => vehicles.push(vehicle),
                         Err(e) => {
-                            tracing::warn!(
-                                "Failed to parse variant {:?}: {}",
-                                variant_file.path,
+                            let msg = format!(
+                                "{}/{}/{}/{}: {}",
+                                make_slug,
+                                model_slug,
+                                year,
+                                variant_file
+                                    .path
+                                    .file_name()
+                                    .unwrap_or_default()
+                                    .to_string_lossy(),
                                 e
                             );
+                            errors.push(msg);
                         }
                     }
                 }
+            } else {
+                // Critical Error: Year Base file missing
+                let msg = format!(
+                    "Missing Year Base file for {}/{} (Year {}). Expected file named '{}.json'",
+                    make_slug, model_slug, year, model_slug
+                );
+                errors.push(msg);
             }
         }
+    }
+
+    if !errors.is_empty() {
+        let error_msg = format!(
+            "Failed to parse {} vehicle(s):\n{}",
+            errors.len(),
+            errors.join("\n")
+        );
+        return Err(anyhow!(error_msg));
     }
 
     vehicles.sort_by(|a, b| {

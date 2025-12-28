@@ -3,6 +3,7 @@ use ev_core::{Battery, Charging, Powertrain, Range, SlugName, Vehicle, VehicleTy
 fn create_base_vehicle() -> Vehicle {
     use ev_core::Drivetrain;
     Vehicle {
+        schema_url: None,
         schema_version: "1.0.0".to_string(),
         make: SlugName {
             slug: "tesla".into(),
