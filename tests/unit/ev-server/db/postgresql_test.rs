@@ -5,6 +5,7 @@ fn test_postgres_init() {
     assert!(PostgresDatabase::new("postgresql://localhost/test").is_ok());
     assert!(PostgresDatabase::new("postgres://localhost/test").is_ok());
     assert!(PostgresDatabase::new("mysql://localhost/test").is_err());
+    assert!(PostgresDatabase::new("sqlite://test.db").is_err());
     assert!(PostgresDatabase::new("invalid").is_err());
 }
 

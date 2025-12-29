@@ -12,8 +12,23 @@ fn test_validate_json_object_valid() {
 
 #[test]
 fn test_validate_json_object_invalid() {
-    let arr = json!([1, 2]);
-    assert!(validate_json_object(&arr, Path::new("test.json")).is_err());
+    let cases = vec![
+        (json!([]), "array"),
+        (json!(null), "null"),
+        (json!(true), "boolean"),
+        (json!(42), "number"),
+        (json!("string"), "string"),
+    ];
+
+    for (value, type_name) in cases {
+        let err = validate_json_object(&value, Path::new("test.json")).unwrap_err();
+        assert!(
+            err.to_string().contains(&format!("got {}", type_name)),
+            "Expected error to contain 'got {}', found: {}",
+            type_name,
+            err
+        );
+    }
 }
 
 #[test]

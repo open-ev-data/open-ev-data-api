@@ -39,29 +39,3 @@ fn json_type_name(value: &Value) -> &'static str {
         Value::Object(_) => "object",
     }
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-    use serde_json::json;
-
-    #[test]
-    fn test_json_type_name() {
-        assert_eq!(json_type_name(&json!(null)), "null");
-        assert_eq!(json_type_name(&json!(true)), "boolean");
-        assert_eq!(json_type_name(&json!(42)), "number");
-        assert_eq!(json_type_name(&json!("test")), "string");
-        assert_eq!(json_type_name(&json!([])), "array");
-        assert_eq!(json_type_name(&json!({})), "object");
-    }
-
-    #[test]
-    fn test_validate_json_object() {
-        let obj = json!({"key": "value"});
-        let path = Path::new("test.json");
-        assert!(validate_json_object(&obj, path).is_ok());
-
-        let arr = json!([1, 2, 3]);
-        assert!(validate_json_object(&arr, path).is_err());
-    }
-}

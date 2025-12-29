@@ -65,16 +65,3 @@ impl PostgresDatabase {
         Ok((vec![], 0))
     }
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_connection_string_validation() {
-        assert!(PostgresDatabase::new("postgresql://localhost/test").is_ok());
-        assert!(PostgresDatabase::new("postgres://localhost/test").is_ok());
-        assert!(PostgresDatabase::new("sqlite://test.db").is_err());
-        assert!(PostgresDatabase::new("invalid").is_err());
-    }
-}

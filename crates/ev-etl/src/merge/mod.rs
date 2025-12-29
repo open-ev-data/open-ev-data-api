@@ -8,7 +8,7 @@ use serde_json::Value;
 
 use crate::ingest::{FileType, VehicleFile};
 
-pub use strategy::deep_merge;
+pub use strategy::{deep_merge, merge_arrays_replace, remove_null_values};
 
 fn inject_unique_code(
     value: &mut Value,
