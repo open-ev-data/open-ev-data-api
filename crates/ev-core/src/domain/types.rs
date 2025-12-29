@@ -188,7 +188,7 @@ mod tests {
     #[test]
     fn test_vehicle_id_display() {
         let id = VehicleId::new("tesla", "model_3", 2024, "base", None).unwrap();
-        assert_eq!(id.to_string(), "tesla:model_3:2024:model_3");
+        assert_eq!(id.to_string(), "tesla:model_3:2024:base");
 
         let id_with_variant = VehicleId::new(
             "tesla",
