@@ -1,7 +1,7 @@
 use ev_core::{SlugName, VehicleId, Year};
 
 #[test]
-fn test_vehicle_id_canonical() {
+fn test_vehicle_id_display() {
     let id = VehicleId {
         make_slug: "tesla".to_string(),
         model_slug: "model_3".to_string(),
@@ -9,7 +9,7 @@ fn test_vehicle_id_canonical() {
         trim_slug: "long_range".to_string(),
         variant_slug: Some("perf".to_string()),
     };
-    assert_eq!(id.canonical_id(), "oed:tesla:model_3:2024:long_range:perf");
+    assert_eq!(id.to_string(), "tesla:model_3:2024:long_range:perf");
 
     let id_no_variant = VehicleId {
         make_slug: "tesla".to_string(),
@@ -18,10 +18,7 @@ fn test_vehicle_id_canonical() {
         trim_slug: "long_range".to_string(),
         variant_slug: None,
     };
-    assert_eq!(
-        id_no_variant.canonical_id(),
-        "oed:tesla:model_3:2024:long_range"
-    );
+    assert_eq!(id_no_variant.to_string(), "tesla:model_3:2024:long_range");
 }
 
 #[test]

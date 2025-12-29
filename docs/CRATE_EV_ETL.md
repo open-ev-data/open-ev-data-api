@@ -9,7 +9,7 @@ This crate provides a command-line tool for transforming layered JSON vehicle da
 ## Usage
 
 ```bash
-cargo run -p ev-etl -- --input ../open-ev-data-dataset/src --output ./output --formats json,sqlite
+cargo run -p ev-etl -- --input ../open-ev-data-dataset/src --output ./output --formats json,sqlite,postgresql,csv,xml
 ```
 
 ## Output Formats

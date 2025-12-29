@@ -40,7 +40,7 @@ fn create_test_vehicle() -> Vehicle {
         },
         sources: vec![],
         charge_ports: vec![],
-        unique_code: None,
+        unique_code: Some("tesla:model_3:2024:model_3".to_string()),
         variant: None,
         markets: None,
         availability: None,

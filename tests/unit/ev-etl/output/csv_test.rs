@@ -75,7 +75,7 @@ fn create_test_vehicle() -> Vehicle {
             license: None,
             notes: None,
         }],
-        unique_code: Some("tesla_model_3_2024_long_range".to_string()),
+        unique_code: Some("tesla:model_3:2024:long_range".to_string()),
         variant: None,
         markets: None,
         availability: None,
@@ -128,7 +128,7 @@ fn create_minimal_vehicle() -> Vehicle {
             real_world: None,
         },
         sources: vec![],
-        unique_code: None,
+        unique_code: Some("bmw:i4:2024:i4".to_string()),
         variant: None,
         markets: None,
         availability: None,
@@ -250,33 +250,12 @@ fn test_csv_data_values() {
     assert!(lines.len() >= 2);
 
     let data_line = lines[1];
-    assert!(data_line.contains("tesla_model_3_2024_long_range"));
+    assert!(data_line.contains("tesla:model_3:2024:long_range"));
     assert!(data_line.contains("300"));
     assert!(data_line.contains("500"));
     assert!(data_line.contains("82"));
     assert!(data_line.contains("75"));
     assert!(data_line.contains("NMC"));
-}
-
-#[test]
-fn test_csv_unique_code_fallback() {
-    let mut vehicle = create_minimal_vehicle();
-    vehicle.unique_code = None;
-
-    let vehicles = vec![vehicle];
-    let file = NamedTempFile::new().expect("Failed to create temp file");
-    let path = file.path();
-
-    csv::generate(&vehicles, path).expect("Failed to generate CSV");
-
-    let content = std::fs::read_to_string(path).expect("Failed to read generated file");
-    let lines: Vec<&str> = content.lines().collect();
-
-    assert!(lines.len() >= 2);
-
-    let data_line = lines[1];
-    assert!(data_line.contains("bmw"));
-    assert!(data_line.contains("i4"));
 }
 
 #[test]

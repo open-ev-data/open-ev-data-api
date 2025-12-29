@@ -69,7 +69,7 @@ fn create_test_vehicle() -> Vehicle {
             license: None,
             notes: None,
         }],
-        unique_code: None,
+        unique_code: Some("tesla:model_3:2024:model_3".to_string()),
         variant: None,
         markets: None,
         availability: None,

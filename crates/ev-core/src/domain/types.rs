@@ -131,25 +131,22 @@ impl VehicleId {
             variant_slug,
         })
     }
-
-    #[must_use]
-    pub fn canonical_id(&self) -> String {
-        match &self.variant_slug {
-            Some(variant) => format!(
-                "oed:{}:{}:{}:{}:{}",
-                self.make_slug, self.model_slug, self.year, self.trim_slug, variant
-            ),
-            None => format!(
-                "oed:{}:{}:{}:{}",
-                self.make_slug, self.model_slug, self.year, self.trim_slug
-            ),
-        }
-    }
 }
 
 impl std::fmt::Display for VehicleId {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", self.canonical_id())
+        match &self.variant_slug {
+            Some(variant) => write!(
+                f,
+                "{}:{}:{}:{}:{}",
+                self.make_slug, self.model_slug, self.year, self.trim_slug, variant
+            ),
+            None => write!(
+                f,
+                "{}:{}:{}:{}",
+                self.make_slug, self.model_slug, self.year, self.trim_slug
+            ),
+        }
     }
 }
 
@@ -189,9 +186,9 @@ mod tests {
     }
 
     #[test]
-    fn test_vehicle_id_canonical() {
+    fn test_vehicle_id_display() {
         let id = VehicleId::new("tesla", "model_3", 2024, "base", None).unwrap();
-        assert_eq!(id.canonical_id(), "oed:tesla:model_3:2024:base");
+        assert_eq!(id.to_string(), "tesla:model_3:2024:model_3");
 
         let id_with_variant = VehicleId::new(
             "tesla",
@@ -202,8 +199,8 @@ mod tests {
         )
         .unwrap();
         assert_eq!(
-            id_with_variant.canonical_id(),
-            "oed:tesla:model_3:2024:base:long_range"
+            id_with_variant.to_string(),
+            "tesla:model_3:2024:base:long_range"
         );
     }
 }

@@ -117,7 +117,7 @@ fn insert_vehicles(conn: &Connection, vehicles: &[Vehicle]) -> Result<()> {
         let unique_code = vehicle
             .unique_code
             .clone()
-            .unwrap_or_else(|| vehicle.id().canonical_id());
+            .expect("unique_code must be set by ETL merge");
 
         let acceleration = vehicle
             .performance

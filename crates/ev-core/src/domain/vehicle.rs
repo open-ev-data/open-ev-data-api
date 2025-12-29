@@ -291,7 +291,7 @@ mod tests {
     fn test_vehicle_id() {
         let vehicle = create_test_vehicle();
         let id = vehicle.id();
-        assert_eq!(id.canonical_id(), "oed:tesla:model_3:2024:base");
+        assert_eq!(id.to_string(), "tesla:model_3:2024:base");
     }
 
     #[test]

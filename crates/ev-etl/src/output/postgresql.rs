@@ -99,7 +99,7 @@ fn write_data(file: &mut std::fs::File, vehicles: &[Vehicle]) -> Result<()> {
         let unique_code = vehicle
             .unique_code
             .clone()
-            .unwrap_or_else(|| vehicle.id().canonical_id());
+            .expect("unique_code must be set by ETL merge");
         let json_data = serde_json::to_string(vehicle)?;
         let escaped_json = json_data.replace('\'', "''");
 

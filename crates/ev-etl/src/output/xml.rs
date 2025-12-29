@@ -25,9 +25,12 @@ pub fn generate(vehicles: &[Vehicle], output_path: &Path) -> Result<()> {
 }
 
 fn write_vehicle(file: &mut std::fs::File, vehicle: &Vehicle) -> Result<()> {
-    let id = vehicle.id().canonical_id();
+    let unique_code = vehicle
+        .unique_code
+        .clone()
+        .expect("unique_code must be set by ETL merge");
 
-    writeln!(file, r#"  <vehicle id="{}">"#, escape_xml(&id))?;
+    writeln!(file, r#"  <vehicle id="{}">"#, escape_xml(&unique_code))?;
     writeln!(
         file,
         "    <make slug=\"{}\">{}</make>",

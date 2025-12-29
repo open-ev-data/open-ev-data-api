@@ -68,7 +68,7 @@ fn create_test_vehicle() -> Vehicle {
             license: None,
             notes: None,
         }],
-        unique_code: Some("tesla_model_3_2024_long_range".to_string()),
+        unique_code: Some("tesla:model_3:2024:long_range".to_string()),
         variant: None,
         markets: None,
         availability: None,
@@ -121,7 +121,7 @@ fn create_minimal_vehicle() -> Vehicle {
             real_world: None,
         },
         sources: vec![],
-        unique_code: None,
+        unique_code: Some("bmw:i4:2024:i4".to_string()),
         variant: None,
         markets: None,
         availability: None,
@@ -218,7 +218,7 @@ fn test_xml_vehicle_id_attribute() {
 
     let content = std::fs::read_to_string(path).expect("Failed to read generated file");
 
-    assert!(content.contains(r#"<vehicle id=""#));
+    assert!(content.contains(r#"<vehicle id="tesla:model_3:2024:long_range">"#));
 }
 
 #[test]

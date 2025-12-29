@@ -278,11 +278,11 @@ fn test_validation_error_invalid_slug() {
 }
 
 #[test]
-fn test_vehicle_id_canonical() {
+fn test_vehicle_id_display() {
     use ev_core::VehicleId;
 
     let id = VehicleId::new("tesla", "model_3", 2024, "base", None).unwrap();
-    assert_eq!(id.canonical_id(), "oed:tesla:model_3:2024:base");
+    assert_eq!(id.to_string(), "tesla:model_3:2024:base");
 
     let id_with_variant = VehicleId::new(
         "tesla",
@@ -293,17 +293,7 @@ fn test_vehicle_id_canonical() {
     )
     .unwrap();
     assert_eq!(
-        id_with_variant.canonical_id(),
-        "oed:tesla:model_3:2024:base:long_range"
+        id_with_variant.to_string(),
+        "tesla:model_3:2024:base:long_range"
     );
-}
-
-#[test]
-fn test_vehicle_id_display() {
-    use ev_core::VehicleId;
-
-    let id = VehicleId::new("tesla", "model_3", 2024, "base", None).unwrap();
-    let display = format!("{}", id);
-    assert!(display.contains("tesla"));
-    assert!(display.contains("model_3"));
 }
