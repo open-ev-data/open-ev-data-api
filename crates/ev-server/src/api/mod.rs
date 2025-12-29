@@ -1,6 +1,5 @@
 pub mod health;
 pub mod makes;
-pub mod search;
 pub mod vehicles;
 
 use std::sync::Arc;
@@ -32,12 +31,9 @@ use crate::db::Database;
     paths(
         health::health_check,
         vehicles::list_vehicles,
-        vehicles::get_vehicle,
-        vehicles::get_vehicle_variants,
         vehicles::get_vehicle_by_code,
+        vehicles::search_vehicles,
         makes::list_makes,
-        makes::list_models,
-        search::search_vehicles,
     ),
     components(
         schemas(
@@ -47,19 +43,16 @@ use crate::db::Database;
             crate::models::Pagination,
             crate::models::VehicleListQuery,
             crate::models::MakesListResponse,
-            crate::models::ModelsListResponse,
             crate::models::SearchQuery,
             crate::models::SearchResponse,
             crate::db::VehicleSummary,
             crate::db::MakeSummary,
-            crate::db::ModelSummary,
         )
     ),
     tags(
         (name = "health", description = "Server health and status monitoring"),
-        (name = "vehicles", description = "Browse, filter, and retrieve electric vehicle specifications"),
-        (name = "makes", description = "List vehicle manufacturers and their models"),
-        (name = "search", description = "Full-text search across all vehicle data"),
+        (name = "vehicles", description = "Browse, filter, search and retrieve electric vehicle specifications"),
+        (name = "makes", description = "List vehicle manufacturers with model information"),
     )
 )]
 pub struct ApiDoc;
@@ -69,7 +62,6 @@ pub fn create_router(db: Arc<Database>, config: &Config) -> Router {
         .merge(health::routes())
         .merge(vehicles::routes())
         .merge(makes::routes())
-        .merge(search::routes())
         .with_state(db);
 
     let mut app = Router::new().nest("/api/v1", api_routes);

@@ -69,7 +69,7 @@ fn default_per_page() -> usize {
 #[schema(example = json!({
     "vehicles": [{
         "id": 1,
-        "unique_code": "tesla-model_3-2024-long_range",
+        "unique_code": "tesla:model_3:2024:model_3",
         "make_slug": "tesla",
         "make_name": "Tesla",
         "model_slug": "model_3",
@@ -100,33 +100,17 @@ pub struct VehicleListResponse {
     "makes": [{
         "slug": "tesla",
         "name": "Tesla",
-        "vehicle_count": 25
+        "vehicle_count": 25,
+        "models": ["Model 3", "Model S", "Model X", "Model Y"]
     }, {
         "slug": "byd",
         "name": "BYD",
-        "vehicle_count": 18
+        "vehicle_count": 18,
+        "models": ["Dolphin", "Seal", "Atto 3"]
     }]
 }))]
 pub struct MakesListResponse {
     pub makes: Vec<crate::db::MakeSummary>,
-}
-
-#[derive(Debug, Clone, Serialize, ToSchema)]
-#[schema(example = json!({
-    "models": [{
-        "slug": "model_3",
-        "name": "Model 3",
-        "years": [2024, 2023, 2022],
-        "vehicle_count": 6
-    }, {
-        "slug": "model_y",
-        "name": "Model Y",
-        "years": [2024, 2023],
-        "vehicle_count": 4
-    }]
-}))]
-pub struct ModelsListResponse {
-    pub models: Vec<crate::db::ModelSummary>,
 }
 
 #[derive(Debug, Clone, Deserialize, ToSchema)]
@@ -142,7 +126,7 @@ pub struct SearchQuery {
 #[schema(example = json!({
     "results": [{
         "id": 5,
-        "unique_code": "byd-dolphin-2024-standard",
+        "unique_code": "byd:dolphin:2024:dolphin",
         "make_slug": "byd",
         "make_name": "BYD",
         "model_slug": "dolphin",

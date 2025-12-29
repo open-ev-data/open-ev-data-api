@@ -47,12 +47,10 @@ This repository provides a **production-ready REST API** for querying electric v
 | Endpoint | Description |
 |----------|-------------|
 | `GET /api/v1/health` | Health check |
-| `GET /api/v1/vehicles` | List vehicles with filters |
-| `GET /api/v1/vehicles/{make}/{model}/{year}` | Get vehicle details |
-| `GET /api/v1/vehicles/{make}/{model}/{year}/variants` | List variants |
-| `GET /api/v1/makes` | List manufacturers |
-| `GET /api/v1/makes/{make}/models` | List models |
-| `GET /api/v1/search?q=query` | Full-text search |
+| `GET /api/v1/vehicles/list` | List vehicles with filters and pagination |
+| `GET /api/v1/vehicles/code/{code}` | Get vehicle by unique code |
+| `GET /api/v1/vehicles/search?q=query` | Full-text search |
+| `GET /api/v1/makes/list` | List manufacturers with model names |
 
 ## Use Cases
 

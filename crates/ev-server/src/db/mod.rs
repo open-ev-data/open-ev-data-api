@@ -25,20 +25,8 @@ impl Database {
         self.inner.list_vehicles(params)
     }
 
-    pub fn get_vehicle(&self, make: &str, model: &str, year: u16) -> Result<Option<Vehicle>> {
-        self.inner.get_vehicle(make, model, year)
-    }
-
-    pub fn get_vehicle_variants(&self, make: &str, model: &str, year: u16) -> Result<Vec<Vehicle>> {
-        self.inner.get_vehicle_variants(make, model, year)
-    }
-
     pub fn list_makes(&self) -> Result<Vec<MakeSummary>> {
         self.inner.list_makes()
-    }
-
-    pub fn list_models(&self, make: &str) -> Result<Vec<ModelSummary>> {
-        self.inner.list_models(make)
     }
 
     pub fn search(
@@ -89,7 +77,7 @@ impl Default for ListParams {
 #[derive(Debug, Clone, serde::Serialize, utoipa::ToSchema)]
 #[schema(example = json!({
     "id": 1,
-    "unique_code": "tesla-model_3-2024-long_range",
+    "unique_code": "tesla:model_3:2024:model_3",
     "make_slug": "tesla",
     "make_name": "Tesla",
     "model_slug": "model_3",
@@ -124,24 +112,12 @@ pub struct VehicleSummary {
 #[schema(example = json!({
     "slug": "tesla",
     "name": "Tesla",
-    "vehicle_count": 25
+    "vehicle_count": 25,
+    "models": ["Model 3", "Model S", "Model X", "Model Y"]
 }))]
 pub struct MakeSummary {
     pub slug: String,
     pub name: String,
     pub vehicle_count: usize,
-}
-
-#[derive(Debug, Clone, serde::Serialize, utoipa::ToSchema)]
-#[schema(example = json!({
-    "slug": "model_3",
-    "name": "Model 3",
-    "years": [2024, 2023, 2022],
-    "vehicle_count": 6
-}))]
-pub struct ModelSummary {
-    pub slug: String,
-    pub name: String,
-    pub years: Vec<u16>,
-    pub vehicle_count: usize,
+    pub models: Vec<String>,
 }

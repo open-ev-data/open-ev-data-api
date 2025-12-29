@@ -139,6 +139,7 @@ fn test_vehicle_file_debug() {
         model_slug: "model_3".to_string(),
         year: Some(2024),
         file_type: FileType::YearBase,
+        file_slug: "model_3".to_string(),
         content: json!({}),
     };
 

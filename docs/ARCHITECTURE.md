@@ -279,12 +279,12 @@ sequenceDiagram
 
     Deploy->>API: Deploy ev-server + vehicles.db
     API->>API: Load database into memory
-    Client->>API: GET /api/v1/vehicles?make=tesla
+    Client->>API: GET /api/v1/vehicles/list?make=tesla
     API->>API: Query local database
     API-->>Client: Return JSON response
 
-    Client->>API: GET /api/v1/vehicles/tesla/model_3/2024
-    API->>API: Query by composite key
+    Client->>API: GET /api/v1/vehicles/code/tesla:model_3:2024:model_3
+    API->>API: Query by unique code
     API-->>Client: Return vehicle details
 
 ```
@@ -607,7 +607,7 @@ Health check endpoint
 }
 ```
 
-#### GET `/api/v1/vehicles`
+#### GET `/api/v1/vehicles/list`
 List all vehicles with pagination and filtering
 
 **Query Parameters**:
@@ -633,47 +633,35 @@ List all vehicles with pagination and filtering
 }
 ```
 
-#### GET `/api/v1/vehicles/{make}/{model}/{year}`
-Get specific vehicle details
+#### GET `/api/v1/vehicles/code/{code}`
+Get specific vehicle by unique code
 
 **Path Parameters**:
-- `make`: Manufacturer slug
-- `model`: Model slug
-- `year`: Model year
+- `code`: Vehicle unique code (format: `make:model:year:filename`)
 
 **Response**: Full canonical vehicle object
 
-#### GET `/api/v1/vehicles/{make}/{model}/{year}/variants`
-List all variants for a specific vehicle
+#### GET `/api/v1/vehicles/search`
+Full-text search across vehicles
 
-**Response**: Array of variant vehicles
+**Query Parameters**:
+- `q`: Search query (minimum 2 characters)
+- `page`, `per_page`: Pagination
 
-#### GET `/api/v1/makes`
-List all manufacturers
+**Response**: Ranked search results with pagination
+
+#### GET `/api/v1/makes/list`
+List all manufacturers with model information
 
 **Response**:
 ```json
 {
   "makes": [
-    { "slug": "tesla", "name": "Tesla", "vehicle_count": 42 },
-    { "slug": "byd", "name": "BYD", "vehicle_count": 38 }
+    { "slug": "tesla", "name": "Tesla", "vehicle_count": 42, "models": ["Model 3", "Model S", "Model X", "Model Y"] },
+    { "slug": "byd", "name": "BYD", "vehicle_count": 38, "models": ["Dolphin", "Seal", "Atto 3"] }
   ]
 }
 ```
-
-#### GET `/api/v1/makes/{make}/models`
-List all models for a manufacturer
-
-**Response**: Array of models with vehicle counts
-
-#### GET `/api/v1/search`
-Full-text search across vehicles
-
-**Query Parameters**:
-- `q`: Search query
-- `page`, `per_page`: Pagination
-
-**Response**: Ranked search results
 
 ### 7.3. Configuration
 

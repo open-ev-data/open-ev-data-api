@@ -25,8 +25,8 @@ All error responses return a JSON object with these fields:
   "type": "https://github.com/open-ev-data/open-ev-data-api/blob/main/docs/API_ERRORS.md#errorsnot-found",
   "title": "Resource Not Found",
   "status": 404,
-  "detail": "Vehicle not found: tesla/model_x/2099",
-  "instance": "/api/v1/vehicles/tesla/model_x/2099"
+  "detail": "Vehicle not found with code: tesla:model_x:2099:model_x",
+  "instance": "/api/v1/vehicles/code/tesla:model_x:2099:model_x"
 }
 ```
 

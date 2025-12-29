@@ -89,10 +89,10 @@ Test endpoints:
 
 ```bash
 curl http://localhost:3000/api/v1/health
-curl http://localhost:3000/api/v1/makes
-curl http://localhost:3000/api/v1/vehicles
-curl http://localhost:3000/api/v1/vehicles/tesla/model_3/2024
-curl "http://localhost:3000/api/v1/search?q=dolphin"
+curl http://localhost:3000/api/v1/makes/list
+curl http://localhost:3000/api/v1/vehicles/list
+curl http://localhost:3000/api/v1/vehicles/code/tesla:model_3:2024:model_3
+curl "http://localhost:3000/api/v1/vehicles/search?q=dolphin"
 ```
 
 Swagger UI is available at: `http://localhost:3000/docs`

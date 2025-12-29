@@ -105,6 +105,12 @@ impl ApiError {
 impl IntoResponse for ApiError {
     fn into_response(self) -> Response {
         let (status, problem) = self.to_problem_details();
+        tracing::error!(
+            status = %status,
+            error_type = %problem.error_type,
+            detail = %problem.detail,
+            "API error response"
+        );
         (status, Json(problem)).into_response()
     }
 }

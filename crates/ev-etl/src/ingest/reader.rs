@@ -11,6 +11,7 @@ pub struct VehicleFile {
     pub model_slug: String,
     pub year: Option<u16>,
     pub file_type: FileType,
+    pub file_slug: String,
     pub content: Value,
 }
 
@@ -137,6 +138,7 @@ fn parse_vehicle_file(path: &Path, base_dir: &Path) -> Result<Option<VehicleFile
         model_slug,
         year,
         file_type,
+        file_slug: file_name.to_string(),
         content,
     }))
 }

@@ -114,14 +114,14 @@ Test complete API workflows from request to response.
 **Example:**
 ```rust
 #[tokio::test]
-async fn test_get_vehicle_success() {
-    let response = client.get("/api/v1/vehicles/tesla/model_3/2024").await;
+async fn test_get_vehicle_by_code_success() {
+    let response = client.get("/api/v1/vehicles/code/tesla:model_3:2024:model_3").await;
     assert_eq!(response.status(), 200);
 }
 
 #[tokio::test]
-async fn test_get_vehicle_not_found() {
-    let response = client.get("/api/v1/vehicles/invalid/invalid/9999").await;
+async fn test_get_vehicle_by_code_not_found() {
+    let response = client.get("/api/v1/vehicles/code/invalid:code:2024:unknown").await;
     assert_eq!(response.status(), 404);
     let body: ProblemDetails = response.json().await;
     assert!(body.error_type.contains("not-found"));

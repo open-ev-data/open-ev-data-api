@@ -4,9 +4,8 @@
 //! with high-concurrency requirements.
 
 use anyhow::Result;
-use ev_core::Vehicle;
 
-use super::{ListParams, MakeSummary, ModelSummary, VehicleSummary};
+use super::{ListParams, MakeSummary, VehicleSummary};
 
 /// PostgreSQL database connection wrapper.
 #[allow(dead_code)]
@@ -39,48 +38,18 @@ impl PostgresDatabase {
 
     /// Get the total number of vehicles in the database.
     pub fn get_vehicle_count(&self) -> Result<usize> {
-        // TODO: Implement with actual PostgreSQL query
-        // SELECT COUNT(*) FROM vehicles
         tracing::warn!("PostgreSQL support not fully implemented yet");
         Ok(0)
     }
 
     /// List vehicles with filtering and pagination.
     pub fn list_vehicles(&self, _params: &ListParams) -> Result<(Vec<VehicleSummary>, usize)> {
-        // TODO: Implement with actual PostgreSQL query
         tracing::warn!("PostgreSQL support not fully implemented yet");
         Ok((vec![], 0))
     }
 
-    /// Get a specific vehicle by make, model, and year.
-    pub fn get_vehicle(&self, _make: &str, _model: &str, _year: u16) -> Result<Option<Vehicle>> {
-        // TODO: Implement with actual PostgreSQL query
-        tracing::warn!("PostgreSQL support not fully implemented yet");
-        Ok(None)
-    }
-
-    /// Get all variants for a specific vehicle.
-    pub fn get_vehicle_variants(
-        &self,
-        _make: &str,
-        _model: &str,
-        _year: u16,
-    ) -> Result<Vec<Vehicle>> {
-        // TODO: Implement with actual PostgreSQL query
-        tracing::warn!("PostgreSQL support not fully implemented yet");
-        Ok(vec![])
-    }
-
-    /// List all manufacturers.
+    /// List all manufacturers with their models.
     pub fn list_makes(&self) -> Result<Vec<MakeSummary>> {
-        // TODO: Implement with actual PostgreSQL query
-        tracing::warn!("PostgreSQL support not fully implemented yet");
-        Ok(vec![])
-    }
-
-    /// List all models for a manufacturer.
-    pub fn list_models(&self, _make: &str) -> Result<Vec<ModelSummary>> {
-        // TODO: Implement with actual PostgreSQL query
         tracing::warn!("PostgreSQL support not fully implemented yet");
         Ok(vec![])
     }
@@ -92,8 +61,6 @@ impl PostgresDatabase {
         _page: usize,
         _per_page: usize,
     ) -> Result<(Vec<VehicleSummary>, usize)> {
-        // TODO: Implement with actual PostgreSQL full-text search
-        // Using tsvector and GiST indexes
         tracing::warn!("PostgreSQL support not fully implemented yet");
         Ok((vec![], 0))
     }

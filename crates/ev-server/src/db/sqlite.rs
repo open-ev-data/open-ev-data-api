@@ -4,7 +4,7 @@ use anyhow::{Context, Result};
 use ev_core::Vehicle;
 use rusqlite::{Connection, params};
 
-use super::{ListParams, MakeSummary, ModelSummary, VehicleSummary};
+use super::{ListParams, MakeSummary, VehicleSummary};
 
 fn build_order_clause(sort_by: &Option<String>, sort_order: &Option<String>) -> String {
     let valid_columns = [
@@ -146,51 +146,6 @@ impl SqliteDatabase {
         Ok((vehicles, total as usize))
     }
 
-    pub fn get_vehicle(&self, make: &str, model: &str, year: u16) -> Result<Option<Vehicle>> {
-        let conn = self
-            .conn
-            .lock()
-            .map_err(|e| anyhow::anyhow!("Lock error: {}", e))?;
-
-        let result: Option<String> = conn
-            .query_row(
-                "SELECT json_data FROM vehicles WHERE make_slug = ? AND model_slug = ? AND year = ? AND variant_slug IS NULL LIMIT 1",
-                params![make, model, year as i32],
-                |row| row.get(0),
-            )
-            .optional()?;
-
-        match result {
-            Some(json) => {
-                let vehicle: Vehicle = serde_json::from_str(&json)?;
-                Ok(Some(vehicle))
-            }
-            None => Ok(None),
-        }
-    }
-
-    pub fn get_vehicle_variants(&self, make: &str, model: &str, year: u16) -> Result<Vec<Vehicle>> {
-        let conn = self
-            .conn
-            .lock()
-            .map_err(|e| anyhow::anyhow!("Lock error: {}", e))?;
-
-        let mut stmt = conn.prepare(
-            "SELECT json_data FROM vehicles WHERE make_slug = ? AND model_slug = ? AND year = ? ORDER BY trim_slug, variant_slug",
-        )?;
-
-        let vehicles: Vec<Vehicle> = stmt
-            .query_map(params![make, model, year as i32], |row| {
-                let json: String = row.get(0)?;
-                Ok(json)
-            })?
-            .filter_map(|r| r.ok())
-            .filter_map(|json| serde_json::from_str(&json).ok())
-            .collect();
-
-        Ok(vehicles)
-    }
-
     pub fn list_makes(&self) -> Result<Vec<MakeSummary>> {
         let conn = self
             .conn
@@ -201,53 +156,28 @@ impl SqliteDatabase {
             "SELECT make_slug, make_name, COUNT(*) as count FROM vehicles GROUP BY make_slug, make_name ORDER BY make_name",
         )?;
 
-        let makes: Vec<MakeSummary> = stmt
+        let mut makes: Vec<MakeSummary> = stmt
             .query_map([], |row| {
                 Ok(MakeSummary {
                     slug: row.get(0)?,
                     name: row.get(1)?,
                     vehicle_count: row.get::<_, i64>(2)? as usize,
+                    models: vec![],
                 })
             })?
             .collect::<std::result::Result<Vec<_>, _>>()?;
 
-        Ok(makes)
-    }
-
-    pub fn list_models(&self, make: &str) -> Result<Vec<ModelSummary>> {
-        let conn = self
-            .conn
-            .lock()
-            .map_err(|e| anyhow::anyhow!("Lock error: {}", e))?;
-
-        let mut stmt = conn.prepare(
-            "SELECT model_slug, model_name, COUNT(*) as count FROM vehicles WHERE make_slug = ? GROUP BY model_slug, model_name ORDER BY model_name",
-        )?;
-
-        let mut models: Vec<ModelSummary> = stmt
-            .query_map(params![make], |row| {
-                Ok(ModelSummary {
-                    slug: row.get(0)?,
-                    name: row.get(1)?,
-                    years: vec![],
-                    vehicle_count: row.get::<_, i64>(2)? as usize,
-                })
-            })?
-            .collect::<std::result::Result<Vec<_>, _>>()?;
-
-        for model in &mut models {
-            let mut year_stmt = conn.prepare(
-                "SELECT DISTINCT year FROM vehicles WHERE make_slug = ? AND model_slug = ? ORDER BY year",
+        for make in &mut makes {
+            let mut model_stmt = conn.prepare(
+                "SELECT DISTINCT model_name FROM vehicles WHERE make_slug = ? ORDER BY model_name",
             )?;
-            model.years = year_stmt
-                .query_map(params![make, model.slug], |row| {
-                    Ok(row.get::<_, i32>(0)? as u16)
-                })?
+            make.models = model_stmt
+                .query_map(params![make.slug], |row| row.get(0))?
                 .filter_map(|r| r.ok())
                 .collect();
         }
 
-        Ok(models)
+        Ok(makes)
     }
 
     pub fn search(

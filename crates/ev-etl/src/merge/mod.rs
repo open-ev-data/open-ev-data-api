@@ -10,6 +10,19 @@ use crate::ingest::{FileType, VehicleFile};
 
 pub use strategy::deep_merge;
 
+fn inject_unique_code(
+    value: &mut Value,
+    make_slug: &str,
+    model_slug: &str,
+    year: u16,
+    file_slug: &str,
+) {
+    if let Value::Object(map) = value {
+        let unique_code = format!("{}:{}:{}:{}", make_slug, model_slug, year, file_slug);
+        map.insert("unique_code".to_string(), Value::String(unique_code));
+    }
+}
+
 pub fn merge_all(files: &[VehicleFile]) -> Result<Vec<Vehicle>> {
     let mut grouped: HashMap<(String, String), Vec<&VehicleFile>> = HashMap::new();
 
@@ -49,7 +62,14 @@ pub fn merge_all(files: &[VehicleFile]) -> Result<Vec<Vehicle>> {
                 .collect();
 
             if let Some(year_base_file) = year_base {
-                let merged_year_base = deep_merge(&base_content, &year_base_file.content);
+                let mut merged_year_base = deep_merge(&base_content, &year_base_file.content);
+                inject_unique_code(
+                    &mut merged_year_base,
+                    &make_slug,
+                    &model_slug,
+                    year,
+                    &year_base_file.file_slug,
+                );
 
                 match serde_json::from_value::<Vehicle>(merged_year_base.clone()) {
                     Ok(vehicle) => vehicles.push(vehicle),
@@ -71,7 +91,14 @@ pub fn merge_all(files: &[VehicleFile]) -> Result<Vec<Vehicle>> {
                 }
 
                 for variant_file in variants {
-                    let merged_variant = deep_merge(&merged_year_base, &variant_file.content);
+                    let mut merged_variant = deep_merge(&merged_year_base, &variant_file.content);
+                    inject_unique_code(
+                        &mut merged_variant,
+                        &make_slug,
+                        &model_slug,
+                        year,
+                        &variant_file.file_slug,
+                    );
 
                     match serde_json::from_value::<Vehicle>(merged_variant) {
                         Ok(vehicle) => vehicles.push(vehicle),
