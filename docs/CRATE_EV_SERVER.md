@@ -14,7 +14,7 @@ DATABASE_URL=./output/vehicles.db cargo run -p ev-server
 
 ## Environment Variables
 
-- `DATABASE_URL`: Path to SQLite database (default: vehicles.db)
+- `DATABASE_URL`: Database URL - supports SQLite database (default: vehicles.db) or PostgreSQL
 - `PORT`: Server port (default: 3000)
 - `HOST`: Bind address (default: 0.0.0.0)
 - `LOG_LEVEL`: Logging level - debug, info, warn, error (default: info)
