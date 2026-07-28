@@ -188,6 +188,60 @@ fn write_data(file: &mut std::fs::File, vehicles: &[Vehicle]) -> Result<()> {
                 .unwrap_or_else(|| "NULL".to_string()),
             escaped_json,
         )?;
+
+        // Insert charge ports for this vehicle
+        for port in &vehicle.charge_ports {
+            let location_side = port
+                .location
+                .as_ref()
+                .and_then(|l| l.side.as_ref())
+                .map(|v| format!("'{:?}'", v))
+                .unwrap_or_else(|| "NULL".to_string());
+            let location_position = port
+                .location
+                .as_ref()
+                .and_then(|l| l.position.as_ref())
+                .map(|v| format!("'{:?}'", v))
+                .unwrap_or_else(|| "NULL".to_string());
+            writeln!(
+                file,
+                "INSERT INTO charge_ports (vehicle_id, kind, connector, location_side, location_position) VALUES (currval('vehicles_id_seq'), '{:?}', '{:?}', {}, {});",
+                port.kind,
+                port.connector,
+                location_side,
+                location_position,
+            )?;
+        }
+
+        // Insert range ratings for this vehicle
+        for rated in &vehicle.range.rated {
+            writeln!(
+                file,
+                "INSERT INTO range_ratings (vehicle_id, cycle, range_km, notes) VALUES (currval('vehicles_id_seq'), '{:?}', {}, {});",
+                rated.cycle,
+                rated.range_km,
+                rated.notes
+                    .as_ref()
+                    .map(|n| format!("'{}'", escape_sql(n)))
+                    .unwrap_or_else(|| "NULL".to_string()),
+            )?;
+        }
+
+        // Insert sources for this vehicle
+        for source in &vehicle.sources {
+            writeln!(
+                file,
+                "INSERT INTO sources (vehicle_id, source_type, title, url, accessed_at, publisher) VALUES (currval('vehicles_id_seq'), '{:?}', '{}', '{}', '{}', {});",
+                source.source_type,
+                escape_sql(&source.title),
+                escape_sql(&source.url),
+                escape_sql(&source.accessed_at),
+                source.publisher
+                    .as_ref()
+                    .map(|p| format!("'{}'", escape_sql(p)))
+                    .unwrap_or_else(|| "NULL".to_string()),
+            )?;
+        }
     }
 
     Ok(())
